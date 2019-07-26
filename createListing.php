@@ -1,36 +1,43 @@
 <?php
   session_start();
-  $destination = "";
-  $dateListed = "";
-  $rate = "";
-  $weight = "";
+  $recall_ID = "";
+  $recall_Product_Name = "";
+  $recall_Number = "";
+  $recall_date = "";
+  $recall_Description = "";
   $err = false;
-  $recall_product_name = "";
-  $miles = "";
-  $user_account_ID="200";
+  $recall_title = "";
+  $recall_Last_Publish_Date = "";
+  $recall_URL="200";
 
   if (isset($_POST['submit'])) {
-    if(isset($_POST['destination'])) $destination = $_POST['destination'];
-    if(isset($_POST['dateListed'])) $dateListed = $_POST['dateListed'];
-    if(isset($_POST['rate'])) $rate = $_POST['rate'];
-    if(isset($_POST['weight'])) $weight = $_POST['weight'];
-    if(isset($_POST['recall_product_name'])) $recall_product_name = $_POST['recall_product_name'];
-    if(isset($_POST['miles'])) $miles = $_POST['miles'];
-    if(isset($_POST['user_account_username'])) $user_account_username = $_SESSION['user_account_username'];
-    if(isset($_SESSION['user_account_ID'])) $user_account_ID = $_SESSION['user_account_ID'];
+    if(isset($_POST['recall_ID'])) $recall_ID = $_POST['recall_ID'];
+    if(isset($_POST['recall_Number'])) $recall_Number = $_POST['recall_Number'];
+    if(isset($_POST['recall_date'])) $recall_date = $_POST['recall_date'];
+    if(isset($_POST['recall_Description'])) $recall_Description = $_POST['recall_Description'];
+    if(isset($_POST['recall_title'])) $recall_title = $_POST['recall_title'];
+    if(isset($_POST['recall_Last_Publish_Date'])) $recall_Last_Publish_Date = $_POST['recall_Last_Publish_Date'];
+    if(isset($_POST['recall_Product_Name'])) $recall_Product_Name = $_POST['recall_Product_Name'];
+    if(isset($_POST['recall_URL'])) $recall_URL = $_POST['recall_URL'];
 
-    if (!empty($destination) && !empty($dateListed) && !empty($weight)
-        && !empty($recall_product_name))
+    if (!empty($recall_ID)
+    && !empty($recall_Number)
+    && !empty($recall_date)
+    && !empty($recall_Description)
+    && !empty($recall_title)
+    && !empty($recall_Last_Publish_Date)
+    && !empty($recall_Product_Name)
+    && !empty($recall_URL))
     {
 
-      $_SESSION['recall_product_name'] = $recall_product_name;
-      $_SESSION['destination'] = $destination;
-      $_SESSION['dateListed'] = $dateListed;
-      $_SESSION['rate'] = $rate;
-      $_SESSION['weight'] = $weight;
-      $_SESSION['user_account_ID'] = $user_account_ID;
-      $_SESSION['miles']= $miles;
-      $_SESSION['user_account_username']=$user_account_username;
+      $_SESSION['recall_title'] = $recall_title;
+      $_SESSION['recall_ID'] = $recall_ID;
+      $_SESSION['recall_Number'] = $recall_Number;
+      $_SESSION['recall_date'] = $recall_date;
+      $_SESSION['recall_Description'] = $recall_Description;
+      $_SESSION['recall_URL'] = $recall_URL;
+      $_SESSION['recall_Last_Publish_Date']= $recall_Last_Publish_Date;
+      $_SESSION['recall_Product_Name']=$recall_Product_Name;
 
       header("Location: listingCreationConfirm.php");
     }
@@ -44,7 +51,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Reynholm Industries</title>
+  <title>Recall Listing Creation</title>
 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    <link rel="stylesheet" href="stylesheet.css" />
@@ -52,7 +59,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <img src="reynholm.jpg" height=5% width=5% />
+  <img src="reynholm.png" height=5% width=5% />
 <ul class="nav nav-tabs">
 <li><a href="clientLanding.php">Home</a></li>
 <li><a href="clientListingsPage.php">Your Listings</a></li>
@@ -66,64 +73,72 @@
     </br>
   </br>
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
-    <label>recall_product_name:
-      <input type="text" name="recall_product_name" value="<?php echo $recall_product_name; ?>" />
+    <label>recall_title:
+      <input type="text" name="recall_title" value="<?php echo $recall_title; ?>" />
       <?php
-        if ($err && empty($recall_product_name)) {
-          echo "<label class='errlabel'>Please enter a valid recall_product_name.</label>";
+        if ($err && empty($recall_title)) {
+          echo "<label class='errlabel'>Please enter a valid recall_title.</label>";
         }
       ?>
     </label>
     <br />
-    <label>destination:
-      <input type="text" name="destination" value="<?php echo $destination; ?>" />
+    <label>recall_Product_Name:
+      <input type="text" name="recall_Product_Name" value="<?php echo $recall_Product_Name; ?>" />
       <?php
-        if ($err && empty($destination)) {
-          echo "<label class='errlabel'>Please enter a valid destination.</label>";
+        if ($err && empty($recall_ID)) {
+          echo "<label class='errlabel'>Please enter a valid recall_ID.</label>";
         }
       ?>
     </label>
-    <br />
-
-    <label>dateListed:
-      <input type="date" name="dateListed" value="<?php echo date('Y-m-d'); ?>"min="<?php echo date('Y-m-d'); ?>" max="2018-12-31"/>
+    <label>recall_ID:
+      <input type="number" name="recall_ID" value="<?php echo $recall_ID; ?>" />
       <?php
-        if ($err && empty($dateListed)) {
-          echo "<label class='errlabel'>Please enter a dateListed.</label>";
-        }
-      ?>
-    </label>
-    <br />
-
-    <label>rate:
-      <input type="number" name="rate" value="<?php echo $rate; ?>" />
-      <?php
-        if ($err && empty($rate)) {
-          echo "<label class='errlabel'>Please enter a proper rate.</label>";
-        }
-      ?>
-    </label>
-    <br />
-    <label>miles:
-      <input type="number" name="miles" value="<?php echo $miles; ?>" />
-      <?php
-        if ($err && empty($miles)) {
-          echo "<label class='errlabel'>Please enter a proper number of miles.</label>";
+        if ($err && empty($recall_ID)) {
+          echo "<label class='errlabel'>Please enter a valid recall_ID.</label>";
         }
       ?>
     </label>
     <br />
 
-    <label>weight:
-      <input type="number" name="weight" value="<?php echo $weight; ?>" />
+    <label>recall_Number:
+      <input type="text" name="recall_Number" value="<?php echo $recall_Number; ?>" />
       <?php
-        if ($err && empty($weight)) {
+        if ($err && empty($recall_Number)) {
+          echo "<label class='errlabel'>Please enter a recall_Number.</label>";
+        }
+      ?>
+    </label>
+    <br />
+
+    <label>recall_date:
+      <input type="date" name="recall_date" value="<?php echo date('Y-m-d'); ?>"min="<?php echo date('Y-m-d'); ?>" max="2090-12-31" />
+      <?php
+        if ($err && empty($recall_date)) {
+          echo "<label class='errlabel'>Please enter a proper recall_date.</label>";
+        }
+      ?>
+    </label>
+    <br />
+    <label>recall_Last_Publish_Date:
+      <input type="date" name="recall_Last_Publish_Date" value="<?php echo date('Y-m-d'); ?>"min="<?php echo date('Y-m-d'); ?>" max="2090-12-31" />
+      <?php
+        if ($err && empty($recall_Last_Publish_Date)) {
+          echo "<label class='errlabel'>Please enter a proper number of recall_Last_Publish_Date.</label>";
+        }
+      ?>
+    </label>
+    <br />
+
+    <label>recall_Description:
+      <input type="text" name="recall_Description" value="<?php echo $recall_Description; ?>" />
+      <?php
+        if ($err && empty($recall_Description)) {
           echo "<label class='errlabel'>Please enter a Location.</label>";
         }
       ?>
     </label>
     <br />
-    <input type="hidden" name="user_account_username" value=<?php $user_account_username ?>/>
+    <input type="hidden" name="recall_Product_Name" value=<?php $recall_Product_Name ?>/>
     <input type="submit" name="submit" value="Submit" />
   </form>
 

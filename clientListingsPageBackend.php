@@ -44,123 +44,100 @@ elseif(isset($_GET['recall_Last_Publish_Date'])) {
 </head>
 <body style="background-color:skyblue;">
 
-<!--analytics come later
-<script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
-<script src="d3pie.min.js"></script>
-<script>
-d3pie.destroy("pieChart");
-</script>
-<div id="pieChart" style="margin: auto;
-background-color:white;
-width: 625px;
-border: 3px solid black;
-padding: 10px;"></div>
-<script>
-var pie = new d3pie("pieChart", {
-"header": {
-  "title": {
-    "text": "Current Query Composition",
-    "fontSize": 20,
-    "font": "open sans"
-  },
-  "subtitle": {
-    "text": "by fulfillment status",
-    "color": "#999999",
-    "font": "open sans"
-  },
-  "titleSubtitlePadding": 9
-},
-"footer": {
-  "color": "#999999",
-  "fontSize": 10,
-  "font": "open sans",
-  "location": "bottom-left"
-},
-"size": {
-  "canvasWidth": 590,
-  "pieInnerRadius": "40%",
-  "pieOuterRadius": "63%"
-},
-"data": {
-  "sortOrder": "value-desc",
-  "content": [
-    {
-      "label": "",
-      "value": <?php //$sql2=("");
-      //$result = $mydb->query($sql2);
-      //while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-      "color": "#1c6898"
-    },
-    {
-      "label": "",
-      "value": <?php //$sql2=("");
-      //$result = $mydb->query($sql2);
-      //while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-      "color": "#a39216"
-    },
-    {
-      "label": "",
-      "value": <?php //$sql2=("");
-      //$result = $mydb->query($sql2);
-      //while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-      "color": "#1628a4"
-    },
-    {
-      "label": "",
-      "value": <?php //$sql2=("");
-      //$result = $mydb->query($sql2);
-      //while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-      "color": "#12bd09"
-    },
-    {
-      "label": "",
-      "value": <?php //$sql2=("");
-      //$result = $mydb->query($sql2);
-      //while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-      "color": "#a11818"
-    }
-  ]
-},
-"labels": {
-  "outer": {
-    "pieDistance": 32
-  },
-  "inner": {
-    "hideWhenLessThanPercentage": 3
-  },
-  "mainLabel": {
-    "fontSize": 11
-  },
-  "percentage": {
-    "color": "#ffffff",
-    "decimalPlaces": 0
-  },
-  "value": {
-    "color": "#adadad",
-    "fontSize": 11
-  },
-  "lines": {
-    "enabled": true
-  },
-  "truncation": {
-    "enabled": true
-  }
-},
-"effects": {
-  "pullOutSegmentOnClick": {
-    "effect": "linear",
-    "speed": 400,
-    "size": 8
-  }
-},
-"misc": {
-  "gradient": {
-    "enabled": true,
-    "percentage": 100
-  }
-}
-});</script>
--->
+  <div id="pieChart" style="margin: auto;
+  background-color:white;
+  width: 850px;
+  border: 3px solid black;
+  padding: 10px;
+  text-align:center;"></div>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
+  <script src="d3pie.min.js"></script>
+  <script>
+  var pie = new d3pie("pieChart", {
+  	"header": {
+  		"title": {
+  			"text": "All Potential Violations",
+  			"fontSize": 20,
+  			"font": "open sans"
+  		},
+  		"subtitle": {
+  			"text": "by process status",
+  			"color": "#999999",
+  			"font": "open sans"
+  		},
+  		"titleSubtitlePadding": 9
+  	},
+  	"footer": {
+  		"color": "#999999",
+  		"fontSize": 10,
+  		"font": "open sans",
+  		"location": "bottom-left"
+  	},
+  	"size": {
+  		"canvasWidth": 590,
+  		"pieInnerRadius": "40%",
+  		"pieOuterRadius": "63%"
+  	},
+  	"data": {
+  		"sortOrder": "value-desc",
+  		"content": [
+  			{
+  				"label": "Reviewed by staff",
+  				"value": <?php $sql2=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='1';");
+          $result = $mydb->query($sql2);
+          while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
+  				"color": "#1c6898"
+  			},
+  			{
+  				"label": "Awaiting Review by staff",
+  				"value": <?php $sql2=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='0';");
+          $result = $mydb->query($sql2);
+          while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
+  				"color": "#a39216"
+  			}
+  		]
+  	},
+  	"labels": {
+  		"outer": {
+  			"pieDistance": 32
+  		},
+  		"inner": {
+  			"hideWhenLessThanPercentage": 3
+  		},
+  		"mainLabel": {
+  			"fontSize": 11
+  		},
+  		"percentage": {
+  			"color": "#ffffff",
+  			"decimalPlaces": 0
+  		},
+  		"value": {
+  			"color": "#adadad",
+  			"fontSize": 11
+  		},
+  		"lines": {
+  			"enabled": true
+  		},
+  		"truncation": {
+  			"enabled": true
+  		}
+  	},
+  	"effects": {
+  		"pullOutSegmentOnClick": {
+  			"effect": "linear",
+  			"speed": 400,
+  			"size": 8
+  		}
+  	},
+  	"misc": {
+  		"gradient": {
+  			"enabled": true,
+  			"percentage": 100
+  		}
+  	}
+  });
+  </script>
 </body>
 </html>
 <?php

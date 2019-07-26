@@ -1,5 +1,7 @@
 <?php
 session_start();
+if(isset($_SESSION["recall_ID"])) $recall_ID=$_SESSION["recall_ID"];
+if(isset($_SESSION["recall_Number"])) $recall_Number=$_SESSION["recall_Number"];
 if(isset($_POST["recall_ID"])) $recall_ID=$_POST["recall_ID"];
 if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
 ?>

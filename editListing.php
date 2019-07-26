@@ -97,7 +97,7 @@
     <br />
 
     <label>recall_Description:
-      <textarea rows=5 style='width:500px' name='recall_Description'><?php echo $recall_Description; ?>" </textarea>
+      <textarea rows=5 style='width:500px' name='recall_Description'><?php echo $recall_Description; ?> </textarea>
       <?php
         if ($err && empty($recall_Description)) {
           echo "<label class='errlabel'>Please enter a proper recall_Description.</label>";

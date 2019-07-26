@@ -6,9 +6,11 @@ if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account
 require_once("db.php");
 
 if (isset($_POST["submit"])) {
-    if(isset($_POST["recall_ID"])) $_SESSION['recall_ID']=$_POST["recall_ID"];
+    if(isset($_POST["recall_ID"])) {$_SESSION['recall_ID']=$_POST["recall_ID"];
+
     Header("Location:  clientListingDetailView.php");
   }
+}
 ?>
 
 <html lang="en" dir="ltr">
@@ -38,38 +40,51 @@ if (isset($_POST["submit"])) {
 
 
 function clearAll()
-{document.getElementById("recall_Product_Name").innerHTML="<?php
-$sql="select distinct recall_Product_Name from recall";
+{document.getElementById("nameDropdown").innerHTML=""
+  document.getElementById("nameDropdown").innerHTML="<?php
+$sql="select distinct recall_Product_Name from recall where recall_ID IS NOT NULL; ";
 $result = $mydb->query($sql);
-echo "<select id='recall_Product_Name' name='recall_Product_Name'><option value=''></option>";
+echo "<select id='nameDropdown' name='nameDropdown'><option value=''></option>";
 while($row=mysqli_fetch_array($result)){
   $Selection=$row["recall_Product_Name"];
   echo "<option value = '$Selection'>$Selection</option>";
 }
 echo "</select>";
-
 ?>";
-document.getElementById("recall_ID").innerHTML="<?php
-$sql="select distinct recall_ID from recall";
+document.getElementById("IDDropdown").innerHTML="<?php
+$sql="select distinct recall_ID from recall where recall_ID IS NOT NULL; ";
 $result = $mydb->query($sql);
-echo "<select id='recall_ID' name='recall_ID'><option value=''></option>";
+echo "<select id='IDDropdown' name='recall_ID'><option value=''></option>";
 while($row=mysqli_fetch_array($result)){
   $Selection=$row["recall_ID"];
   echo "<option value = '$Selection'>$Selection</option>";
 }
 echo "</select>";
-?>"
+?>";
+document.getElementById("numberDropdown").innerHTML="<?php
+$sql="select distinct recall_Number from recall where recall_ID IS NOT NULL;";
+$result = $mydb->query($sql);
+echo "<select id='numberDropdown' name='recall_Number'><option value=''></option>";
+while($row=mysqli_fetch_array($result)){
+  $Selection=$row["recall_Number"];
+  echo "<option value = '$Selection'>$Selection</option>";
+}
+echo "</select>";
+?>";
 
-document.getElementById("recall_Number").value="";
+
 document.getElementById("recall_date").value="";
-document.getElementById("recall_Product_Name").selectedIndex = "1";
+document.getElementById("recall_Last_Publish_Date").value="";
+document.getElementById("numberDropdown").value="";
+ocument.getElementById("nameDropdown").value="";
+document.getElementById("IDDropdown").value="";
 
 $(function(){
-  $.ajax({url:"clientListingsPageBackend.php?recall_Product_Name="+
-  $("#recall_Product_Name").val()+"&recall_ID="+
-  $("#recall_ID").val()+"&recall_date="+
+  $.ajax({url:"clientListingsPageBackend.php?nameDropdown="+
+  $("#nameDropdown").val()+"&recall_ID="+
+  $("#IDDropdown").val()+"&recall_date="+
   $("#recall_date").val()+
-  "&recall_Number="+$("#recall_Number").val()+
+  "&recall_Number="+$("#numberDropdown").val()+
   "&recall_Last_Publish_Date="+$("#recall_Last_Publish_Date").val(),
     async:true,
     success:function(result){
@@ -77,7 +92,6 @@ $(function(){
     }
   })
 })
-document.getElementById("recall_Product_Name").selectedIndex = "";
 }
 </script>
 <div style="left-margin:auto;right-margin:auto;display:block;width:850px;">
@@ -86,9 +100,9 @@ document.getElementById("recall_Product_Name").selectedIndex = "";
 		  <tr>
 		    <td>Product Name:</td>
 		    <td><?php
-		    $sql="select distinct recall_Product_Name from recall";
+		    $sql="select distinct recall_Product_Name from recall where recall_ID IS NOT NULL;";
 		    $result = $mydb->query($sql);
-		    echo "<select style='width:500px' id='recall_Product_Name' name='recall_Product_Name'><option value=''></option>";
+		    echo "<select style='width:500px' id='nameDropdown' name='nameDropdown'><option value=''></option>";
 		    while($row=mysqli_fetch_array($result)){
 		      $Selection=$row["recall_Product_Name"];
 		      echo "<option value = '$Selection'>$Selection</option>";
@@ -98,9 +112,9 @@ document.getElementById("recall_Product_Name").selectedIndex = "";
       </tr>
       <tr>
         <td><?php
-       $sql="select distinct recall_ID from recall";
+       $sql="select distinct recall_ID from recall where recall_ID IS NOT NULL;";
        $result = $mydb->query($sql);
-       echo "<select id='recall_ID'><option value=''></option>";
+       echo "<select id='IDDropdown'><option value=''></option>";
        while($row=mysqli_fetch_array($result)){
          $Selection=$row["recall_ID"];
          echo "<option value = '$Selection'>$Selection</option>";
@@ -109,9 +123,9 @@ document.getElementById("recall_Product_Name").selectedIndex = "";
        ?></td>
         <td>Recall Number:</td>
         <td><?php
-       $sql="select distinct recall_Number from recall";
+       $sql="select distinct recall_Number from recall where recall_ID IS NOT NULL;";
        $result = $mydb->query($sql);
-       echo "<select id='recall_Number'><option value=''></option>";
+       echo "<select id='numberDropdown'><option value=''></option>";
        while($row=mysqli_fetch_array($result)){
          $Selection=$row["recall_Number"];
          echo "<option value = '$Selection'>$Selection</option>";
@@ -133,21 +147,21 @@ document.getElementById("recall_Product_Name").selectedIndex = "";
 		<script src="jquery-3.1.1.min.js"></script>
 		<script>
 
-        $(function(){
-        $("#recall_ID, #recall_date, #recall_Last_Publish_Date, #recall_Number, #recall_Product_Name").change(function(){
-          $.ajax({url:"clientListingsPageBackend.php?recall_Product_Name="+
-          $("#recall_Product_Name").val()+"&recall_ID="+
-          $("#recall_ID").val()+"&recall_date="+
-          $("#recall_date").val()+
-          "&recall_Number="+$("#recall_Number").val()+
-          "&recall_Last_Publish_Date="+$("#recall_Last_Publish_Date").val(),
-            async:true,
-            success:function(result){
-              $("#contentArea").html(result);
-            }
-          })
-        })
-        })
+            $(function(){
+            $("#IDDropdown, #recall_date, #recall_Last_Publish_Date, #numberDropdown, #nameDropdown").change(function(){
+              $.ajax({url:"clientListingsPageBackend.php?nameDropdown="+
+              $("#nameDropdown").val()+"&recall_ID="+
+              $("#IDDropdown").val()+"&recall_date="+
+              $("#recall_date").val()+
+              "&recall_Number="+$("#numberDropdown").val()+
+              "&recall_Last_Publish_Date="+$("#recall_Last_Publish_Date").val(),
+                async:true,
+                success:function(result){
+                  $("#contentArea").html(result);
+                }
+              })
+            })
+            })
 </script>
 
 <div id="contentArea"></div>
