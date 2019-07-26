@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if(isset($_SESSION['clientName'])) $clientName=$_SESSION['clientName'];
-if(isset($_SESSION['clientID'])) $clientID=$_SESSION['clientID'];
+if(isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
+if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
 require_once("db.php");
 
 if (isset($_POST["submit"])) {
-    if(isset($_POST["listingID"])) $_SESSION['listingID']=$_POST["listingID"];
+    if(isset($_POST["recall_ID"])) $_SESSION['recall_ID']=$_POST["recall_ID"];
     Header("Location:  clientListingDetailView.php");
   }
 ?>
@@ -36,19 +36,19 @@ if (isset($_POST["submit"])) {
 <script src="d3pie.min.js"></script>
 <script>
 function clearAll()
-{document.getElementById("originDropdown").innerHTML="<?php
-$sql="select distinct origin from listing where clientID='$clientID'";
+{document.getElementById("namedropdown").innerHTML="<?php
+$sql="select distinct recall_product_name from listing where user_account_ID='$user_account_ID'";
 $result = $mydb->query($sql);
-echo "<select id='originDropdown' name='originDropdown'><option value=''></option>";
+echo "<select id='namedropdown' name='namedropdown'><option value=''></option>";
 while($row=mysqli_fetch_array($result)){
-  $Selection=$row["origin"];
+  $Selection=$row["recall_product_name"];
   echo "<option value = '$Selection'>$Selection</option>";
 }
 echo "</select>";
 ?>";
 
 document.getElementById("destinationDropdown").innerHTML="<?php
-$sql="select distinct destination from listing where clientID='$clientID'";
+$sql="select distinct destination from listing where user_account_ID='$user_account_ID'";
 $result = $mydb->query($sql);
 echo "<select id='destinationDropdown'><option value=''></option>";
 while($row=mysqli_fetch_array($result)){
@@ -58,17 +58,14 @@ while($row=mysqli_fetch_array($result)){
 echo "</select>";
 ?>"
 $(function(){
-  $.ajax({url:"clientListingsPageBackend.php?originDropdown="+
-  $("#originDropdown").val()+"&maxRPM="+
-  $("#maxRPM").val()+"&maxWeight="+
-  $("#maxWeight").val()+
+  $.ajax({url:"clientListingsPageBackend.php?namedropdown="+
+  $("#namedropdown").val()+"&recall_ID="+
+  $("#recall_ID").val()+"&recall_date="+
+  $("#recall_date").val()+
   "&destinationDropdown="+
   $("#destinationDropdown").val()+
-  "&minRPM="+$("#minRPM").val()+
-  "&minWeight="+$("#minWeight").val()+
-  "&minMiles="+$("#minMiles").val()+
-  "&maxMiles="+$("#maxMiles").val()+
-  "&state="+$("#state").val(),
+  "&recall_ID="+$("#recall_ID").val()+
+  "&recall_last_publish_date="+$("#recall_last_publish_date").val(),
     async:true,
     success:function(result){
       $("#contentArea").html(result);
@@ -81,27 +78,27 @@ $(function(){
 
     <table style="text-align:center;left-margin:auto;right-margin:auto;display:block;">
       <tr>
-        <td>Origin:</td>
+        <td>recall_product_name:</td>
         <td><?php
-        $sql="select distinct origin from listing where clientID='$clientID'";
+        $sql="select distinct recall_product_name from listing where user_account_ID='$user_account_ID'";
         $result = $mydb->query($sql);
-        echo "<select id='originDropdown' name='originDropdown'><option value=''></option>";
+        echo "<select id='namedropdown' name='namedropdown'><option value=''></option>";
         while($row=mysqli_fetch_array($result)){
-          $Selection=$row["origin"];
+          $Selection=$row["recall_product_name"];
           echo "<option value = '$Selection'>$Selection</option>";
         }
         echo "</select>";
         ?></td>
         <td>Maximum Rate/Mile:</td>
-        <td><input type="number" id="maxRPM" name="maxRPM" value="" /></td>
+        <td><input type="number" id="recall_ID" name="recall_ID" value="" /></td>
         <td>Minimum Rate/Mile:</td>
-       <td><input type="number" name="minRPM" id="minRPM" value="" /></td>
+       <td><input type="number" name="recall_ID" id="recall_ID" value="" /></td>
 
       </tr>
       <tr>
         <td>Destination:</td>
         <td><?php
-        $sql="select distinct destination from listing where clientID='$clientID'";
+        $sql="select distinct destination from listing where user_account_ID='$user_account_ID'";
         $result = $mydb->query($sql);
         echo "<select id='destinationDropdown'><option value=''></option>";
         while($row=mysqli_fetch_array($result)){
@@ -111,18 +108,13 @@ $(function(){
         echo "</select>";
         ?></td>
         <td>Maximum Weight:</td>
-        <td><input type="number" id="maxWeight" name="maxWeight" value="" /></td>
+        <td><input type="number" id="recall_date" name="recall_date" value="" /></td>
         <td>Minimum Weight:</td>
-        <td><input type="number" id="minWeight" name="minWeight" value="" /></td>
+        <td><input type="number" id="recall_last_publish_date" name="recall_last_publish_date" value="" /></td>
       </tr>
       <tr>
         <td><input type="hidden" name="state" id="state" value="F" /></td>
         <td><button id="resetSearch" name="resetSearch" onclick="clearAll();">Reset Search</button></td>
-        <td>Maximum Miles:</td>
-        <td><input type="number" name="maxMiles" id="maxMiles" value="" /></td>
-        <td>Minimum Miles:</td>
-        <td><input type="number" name="minMiles" id="minMiles" value="" /></td>
-      </tr>
     </table>
 
   </div>
@@ -131,18 +123,15 @@ $(function(){
 		<script>
 
         $(function(){
-        $("#maxMiles, #maxRPM, #maxMiles, #maxWeight, #minMiles, #minWeight, #minRPM, #destinationDropdown, #originDropdown").change(function(){
-          $.ajax({url:"clientListingsPageBackend.php?originDropdown="+
-          $("#originDropdown").val()+"&maxRPM="+
-          $("#maxRPM").val()+"&maxWeight="+
-          $("#maxWeight").val()+
+        $("#recall_ID, #recall_date, #recall_last_publish_date, #recall_ID, #destinationDropdown, #namedropdown").change(function(){
+          $.ajax({url:"clientListingsPageBackend.php?namedropdown="+
+          $("#namedropdown").val()+"&recall_ID="+
+          $("#recall_ID").val()+"&recall_date="+
+          $("#recall_date").val()+
           "&destinationDropdown="+
           $("#destinationDropdown").val()+
-          "&minRPM="+$("#minRPM").val()+
-          "&minWeight="+$("#minWeight").val()+
-          "&minMiles="+$("#minMiles").val()+
-          "&maxMiles="+$("#maxMiles").val()+
-          "&state="+$("#state").val(),
+          "&recall_ID="+$("#recall_ID").val()+
+          "&recall_last_publish_date="+$("#recall_last_publish_date").val(),
             async:true,
             success:function(result){
               $("#contentArea").html(result);
@@ -152,18 +141,14 @@ $(function(){
         })
         $(function(){
         $("#resetSearch").onclick(function(){
-          $.ajax({url:"clientListingsPageBackend.php?originDropdown="+
-          $("#originDropdown").val()+"&maxRPM="+
-          $("#maxRPM").val()+"&maxWeight="+
-          $("#maxWeight").val()+
+          $.ajax({url:"clientListingsPageBackend.php?namedropdown="+
+          $("#namedropdown").val()+"&recall_ID="+
+          $("#recall_ID").val()+"&recall_date="+
+          $("#recall_date").val()+
           "&destinationDropdown="+
           $("#destinationDropdown").val()+
-          "&minRPM="+$("#minRPM").val()+
-          "&minWeight="+$("#minWeight").val()+
-          "&dateListed="+$("#dateListed")+
-          "&minMiles="+$("#minMiles")+
-          "&maxMiles="+$("#maxMiles")+
-          "&state="+$("#state"),
+          "&recall_ID="+$("#recall_ID").val()+
+          "&recall_last_publish_date="+$("#recall_last_publish_date").val(),
             async:true,
             success:function(result){
               $("#contentArea").html(result);

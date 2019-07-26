@@ -5,32 +5,32 @@
   $rate = "";
   $weight = "";
   $err = false;
-  $origin = "";
+  $recall_product_name = "";
   $miles = "";
-  $clientID="200";
+  $user_account_ID="200";
 
   if (isset($_POST['submit'])) {
     if(isset($_POST['destination'])) $destination = $_POST['destination'];
     if(isset($_POST['dateListed'])) $dateListed = $_POST['dateListed'];
     if(isset($_POST['rate'])) $rate = $_POST['rate'];
     if(isset($_POST['weight'])) $weight = $_POST['weight'];
-    if(isset($_POST['origin'])) $origin = $_POST['origin'];
+    if(isset($_POST['recall_product_name'])) $recall_product_name = $_POST['recall_product_name'];
     if(isset($_POST['miles'])) $miles = $_POST['miles'];
-    if(isset($_POST['clientName'])) $clientName = $_SESSION['clientName'];
-    if(isset($_SESSION['clientID'])) $clientID = $_SESSION['clientID'];
+    if(isset($_POST['user_account_username'])) $user_account_username = $_SESSION['user_account_username'];
+    if(isset($_SESSION['user_account_ID'])) $user_account_ID = $_SESSION['user_account_ID'];
 
     if (!empty($destination) && !empty($dateListed) && !empty($weight)
-        && !empty($origin))
+        && !empty($recall_product_name))
     {
 
-      $_SESSION['origin'] = $origin;
+      $_SESSION['recall_product_name'] = $recall_product_name;
       $_SESSION['destination'] = $destination;
       $_SESSION['dateListed'] = $dateListed;
       $_SESSION['rate'] = $rate;
       $_SESSION['weight'] = $weight;
-      $_SESSION['clientID'] = $clientID;
+      $_SESSION['user_account_ID'] = $user_account_ID;
       $_SESSION['miles']= $miles;
-      $_SESSION['clientName']=$clientName;
+      $_SESSION['user_account_username']=$user_account_username;
 
       header("Location: listingCreationConfirm.php");
     }
@@ -66,11 +66,11 @@
     </br>
   </br>
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
-    <label>origin:
-      <input type="text" name="origin" value="<?php echo $origin; ?>" />
+    <label>recall_product_name:
+      <input type="text" name="recall_product_name" value="<?php echo $recall_product_name; ?>" />
       <?php
-        if ($err && empty($origin)) {
-          echo "<label class='errlabel'>Please enter a valid origin.</label>";
+        if ($err && empty($recall_product_name)) {
+          echo "<label class='errlabel'>Please enter a valid recall_product_name.</label>";
         }
       ?>
     </label>
@@ -123,7 +123,7 @@
       ?>
     </label>
     <br />
-    <input type="hidden" name="clientName" value=<?php $clientName ?>/>
+    <input type="hidden" name="user_account_username" value=<?php $user_account_username ?>/>
     <input type="submit" name="submit" value="Submit" />
   </form>
 

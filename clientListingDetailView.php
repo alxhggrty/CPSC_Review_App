@@ -1,5 +1,7 @@
 <?php
 session_start();
+if(isset($_POST["recall_ID"])) $recall_ID=$_POST["recall_ID"];
+if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
 ?>
 <html>
 <head>
@@ -12,99 +14,89 @@ session_start();
 </head>
 <body>
       <img src="reynholm.jpg" height=5% width=5% />
-  <ul class="nav nav-tabs">
-  <li class="active"><a href="clientLanding.php">Home</a></li>
-  <li><a href="clientListingsPage.php">Your Listings</a></li>
-  <li><a href="clientCurrentLoads.php">Loads in Transit</a></li>
-  <li><a href="clientPastLoads.php">Past Loads</a></li>
-  <li><a href="createListing.php">Create Listing</a></li>
-  <li><a href="clientAccountManagement.php">Manage Account</a></li>
-</ul>
+      <ul class="nav nav-tabs">
+      <li><a href="clientLanding.php">Home</a></li>
+      <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
+      <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
+      <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+      <li><a href="createListing.php">Add Recalls</a></li>
+      <li><a href="clientAccountManagement.php">Manage Account</a></li>
+      </ul>
   <?php
-    if (isset($_SESSION['listingID'])) $listingID=$_SESSION['listingID'];
+    if (isset($_SESSION['recall_ID']) && isset($_SESSION['recall_Number'])) {
+      $recall_ID=$_SESSION['recall_ID'];
+      $recall_Number=$_SESSION['recall_Number'];}
 
     if (isset($_POST["edit"])) {
-      if(isset($_POST["listingID"])) $_SESSION['listingID']=$_POST["listingID"];
+      if(isset($_POST["recall_ID"])&& isset($_POST['recall_Number'])) {
+
+      $_SESSION['recall_ID']=$_POST["recall_ID"];
+      $_SESSION['recall_Number']=$_POST['recall_Number'];}
 
         Header("Location:  editListing.php");
       }
       if (isset($_POST["cancel"])) {
-          if(isset($_POST["listingID"])) $_SESSION['listingID']=$_POST["listingID"];
+        if(isset($_POST["recall_ID"])&& isset($_POST['recall_Number'])) {
+
+        $_SESSION['recall_ID']=$_POST["recall_ID"];
+        $_SESSION['recall_Number']=$_POST['recall_Number'];}
+
           Header("Location:  clientCancelListing.php");
         }
 
     require_once("db.php");
-    $sql="select distinct * from listing where listingID='$listingID'";
+    $sql="select * from recall where recall_ID='$recall_ID' and recall_Number='$recall_Number'";
     $result = $mydb->query($sql);
     while($row=mysqli_fetch_array($result)){
-      $Selection=$row["origin"];
-      echo "<div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'><table>
+      echo "<div style='margin-left: auto; display: block; margin-right: auto;width: 800px;'><table>
       <tr>
-      <th>Listing Information</th>
+      <th>recall Information</th>
       <th></th>
-      </tr>
-      <tr>
-        <td>Status</td>";
-        if ($row['state']=="NA"){echo "<td>Needs Approval</td>";}
-        elseif($row['state']=="L"){echo "<td>Listed</td>";}
-        elseif($row['state']=="IT"){echo "<td>In Transit</td>";}
-        elseif($row['state']=="F"){echo "<td>Fulfilled</td>";}
-        elseif($row['state']=="C"){echo "<td>Cancelled</td>";}
-
-      echo "</tr>
   <tr>
-    <td>client ID</td>
-    <td>".$row['clientID']."</td>
+    <td>Recall ID</td>
+    <td>".$row['recall_ID']."</td>
   </tr>
   <tr>
-    <td>Client Name</td>
-    <td>".$row['clientName']."</td>
+    <td>Recall Number</td>
+    <td>".$row['recall_Number']."</td>
   </tr>
   <tr>
-    <td>Starting Location</td>
-    <td>".$row['origin']."</td>
+    <td>recall date</td>
+    <td>".$row['recall_date']."</td>
   </tr>
   <tr>
-    <td>Destination</td>
-    <td>".$row['destination']."</td>
+    <td>description</td>
+    <td>".$row['recall_Description']."</td>
   </tr>
   <tr>
-    <td>Total Miles</td>
-    <td>".$row['miles']."</td>
+    <td>Title</td>
+    <td>".$row['recall_title']."</td>
   </tr>
   <tr>
-    <td>Date Listed</td>
-    <td>".$row['dateListed']."</td>
+    <td>Last Published On</td>
+    <td>".$row['recall_Last_Publish_Date']."</td>
   </tr>
   <tr>
-    <td>Date Fulfilled</td>
-    <td>".$row['dateFufilled']."</td>
+    <td>Product Name</td>
+    <td>".$row['recall_Product_Name']."</td>
   </tr>
   <tr>
-    <td>Rate/Mile ($)</td>
-    <td>".$row['ratePerMile']."</td>
+    <td>CPSC URL</td>
+    <td><a href='".$row['recall_URL']."'>CPSC Official Recall Page</a></td>
   </tr>
   <tr>
-    <td>Package Weight(tons)</td>
-    <td>".$row['weight']."</td>
-  </tr>
-  <tr>
-    <td>Driver CDL</td>
-    <td>".$row['CDL']."</td>
-  </tr>";
-  if($row['state']!=="f"||$row['state']!=="IT")
-  echo
-  "<tr>
     <td><form method='post' type=submit
         action='".$_SERVER['PHP_SELF']."'>
-          <input type='submit' name='edit' value='Edit Listing' />
-          <input type='hidden' name='listingID' value='".$row['listingID']."' />
+          <input type='submit' name='edit' value='Edit recall' />
+          <input type='hidden' name='recall_ID' value='".$row['recall_ID']."' />
+          <input type='hidden' name='recall_Number' value='".$row['recall_Number']."' />
         </form>
     </td>
     <td><form method='post'
         action='".$_SERVER['PHP_SELF']."'>
-          <input type='submit' name='cancel' value='Remove Listing' />
-          <input type='hidden' name='listingID' value='".$row['listingID']."' />
+          <input type='submit' name='cancel' value='Remove recall' />
+          <input type='hidden' name='recall_ID' value='".$row['recall_ID']."' />
+          <input type='hidden' name='recall_Number' value='".$row['recall_Number']."' />
         </form>
     </td>
   </tr>";

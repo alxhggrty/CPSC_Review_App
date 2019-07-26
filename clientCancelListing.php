@@ -18,50 +18,19 @@
 </ul>
 <div style='margin-left: auto; display: block; margin-right: auto;width: 650px;'>
   <?php
-    $state = "C";//cancelled
-    $CDL = "N/A";//not applicable
-    $dateFufilled = "N/A";//not applicable
-
     session_start();
-    $listingID=$_SESSION['listingID'];
+    $recall_ID=$_SESSION['recall_ID'];
+    $recall_Number=$_SESSION['$recall_Number'];
 
-    $clientName=$_SESSION['clientName'];
 
     require_once("db.php");
 
-    $sql = "update listing set state = '$state' where listingID=$listingID";
+    $sql = "delete from recall where recall_ID='$recall_ID' and recall_Number='$recall_Number'";
 
          $result=$mydb->query($sql);
 
          if ($result==1) {
-
-           $sql2 = "select * from listing where listingID=$listingID";
-                $result=$mydb->query($sql2);
-                while($row = mysqli_fetch_array($result)){
-           echo "<p>An edited Listing is now cancelled</p></br>";
-
-           echo "<table>
-              <tr>
-                <th>  Client Name </th>
-                <th>  Origin  </th>
-                <th>  Destination </th>
-                <th>  date listed </th>
-                <th>  Weight  </th>
-                <th>  rate  </th>
-                <th>  Miles </th>
-                <th>  Rate per Mile </th>
-              </tr>
-              <tr>
-                <td>".$row['clientName']."</td>
-                <td>".$row['origin']."</td>
-                <td>".$row['destination']."</td>
-                <td>".$row['dateListed']."</td>
-                <td>".$row['weight']."</td>
-                <td>".$row['rate']."</td>
-                <td>".$row['miles']."</td>
-                <td>".$row['ratePerMile']."</td>
-              </tr>
-            </table>";
+           echo "<p>A Recall has been deleted!</p></br>";
                    }
          }
          else
@@ -70,6 +39,7 @@
          }
   ?>
 </div>
+<p><a style='background:white' href="clientListingsPage.php">Click Here to Return to the Recalls Page</a></p>
 <p><a href="logout.php">Click here to log out</a></p>
 </body>
 </html>

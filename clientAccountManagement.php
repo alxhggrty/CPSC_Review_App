@@ -22,17 +22,17 @@ session_start();
   <li class="active"><a href="clientAccountManagement.php">Manage Account</a></li>
 </ul>
   <?php
-    if (isset($_SESSION['clientID'])) $clientID=$_SESSION['clientID'];
+    if (isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
 
       if (isset($_POST["DeleteAccount"])) {
-          if(isset($_POST["clientID"])) $_SESSION['clientID']=$_POST["clientID"];
-          $sql="delete from client where clientID='$clientID'";
+          if(isset($_POST["user_account_ID"])) $_SESSION['user_account_ID']=$_POST["user_account_ID"];
+          $sql="delete from client where user_account_ID='$user_account_ID'";
           $mydb->query($sql);
           Header("Location:  logout.php");
         }
 
 
-    $sql="select distinct * from client where clientID='$clientID'";
+    $sql="select distinct * from client where user_account_ID='$user_account_ID'";
     $result = $mydb->query($sql);
     while($row=mysqli_fetch_array($result)){
       echo "<div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'><table>
@@ -42,15 +42,15 @@ session_start();
       </tr>
   <tr>
     <td>client ID</td>
-    <td>".$row['clientID']."</td>
+    <td>".$row['user_account_ID']."</td>
   </tr>
   <tr>
     <td>Client Name</td>
-    <td>".$row['clientName']."</td>
+    <td>".$row['user_account_username']."</td>
   </tr>
   <tr>
-    <td>email</td>
-    <td>".$row['email']."</td>
+    <td>user_account_username</td>
+    <td>".$row['user_account_username']."</td>
   </tr>
   <tr>
     <td>Base Location</td>
@@ -62,7 +62,7 @@ session_start();
     <td><form method='post'
         action='".$_SERVER['PHP_SELF']."'>
           <input type='submit' name='DeleteAccount' value='Delete Account' />
-          <input type='hidden' name='clientID' value='".$row['clientID']."' />
+          <input type='hidden' name='user_account_ID' value='".$row['user_account_ID']."' />
         </form>
     </td>
   </tr>";

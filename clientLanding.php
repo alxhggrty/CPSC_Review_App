@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['clientName'])) $clientName=$_SESSION['clientName'];
-if(isset($_SESSION['clientID'])) $clientID=$_SESSION['clientID'];
+if(isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
+if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
 require_once("db.php");
 ?>
 <html>
 <head>
-  <title>Reynholm Industries</title>
+  <title>CPSC Recall Management</title>
 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    <link rel="stylesheet" href="stylesheet.css" />
@@ -28,8 +28,8 @@ require_once("db.php");
 
 <?php
 //resume the session variable on this page
-$clientID = $_SESSION["clientID"];
-$clientName = $_SESSION["clientName"];
+$user_account_ID = $_SESSION["user_account_ID"];
+$user_account_username = $_SESSION["user_account_username"];
 $timeString = "";
 $currentTime = date("a");
 if ($currentTime == "am") {
@@ -38,7 +38,7 @@ if ($currentTime == "am") {
   $timeString = "afternoon";
 }
 
-    echo "<div style='text-align:center;width: 850px;'>Good ".$timeString." ".$clientName."!</div>";
+    echo "<div style='text-align:center;width: 850px;'>Good ".$timeString." ".$user_account_username."!</div>";
 ?>
 <div id="pieChart" style="margin: auto;
 background-color:white;
@@ -53,7 +53,7 @@ text-align:center;"></div>
 var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
-			"text": "All Violations",
+			"text": "All Potential Violations",
 			"fontSize": 20,
 			"font": "open sans"
 		},
@@ -79,32 +79,18 @@ var pie = new d3pie("pieChart", {
 		"sortOrder": "value-desc",
 		"content": [
 			{
-				"label": "Flagged, Awaiting Review",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='NA'");
+				"label": "Reviewed by staff",
+				"value": <?php $sql=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='1'");
         $result = $mydb->query($sql);
         while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
 				"color": "#1c6898"
 			},
 			{
-				"label": "Unflagged, Awaiting Review",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='L'");
+				"label": "Awaiting Review by staff",
+				"value": <?php $sql=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='0'");
         $result = $mydb->query($sql);
         while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
 				"color": "#a39216"
-			},
-			{
-				"label": "Reviewed, In Violation",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='IT'");
-        $result = $mydb->query($sql);
-        while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-				"color": "#1628a4"
-			},
-			{
-				"label": "Reviewed, Non-Violating",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='F'");
-        $result = $mydb->query($sql);
-        while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-				"color": "#12bd09"
 			}
 		]
 	},
@@ -148,6 +134,7 @@ var pie = new d3pie("pieChart", {
 	}
 });
 </script>
+<div></div>
 <div id="pieChart2" style="margin: auto;
 background-color:white;
 width: 850px;
@@ -161,7 +148,7 @@ text-align:center;"></div>
 var pie2 = new d3pie("pieChart2", {
 	"header": {
 		"title": {
-			"text": "Unreviewed Violations",
+			"text": "Violations Reviewed by Each Employee",
 			"fontSize": 20,
 			"font": "open sans"
 		},
@@ -187,112 +174,25 @@ var pie2 = new d3pie("pieChart2", {
 		"sortOrder": "value-desc",
 		"content": [
 			{
-				"label": "Flagged",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='NA'");
+				"label": "reviewed by knighterrant",
+				"value": <?php $sql=("select count(recall_ID) as total from potential_violation where employee_ID='1'");
         $result = $mydb->query($sql);
         while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
 				"color": "#1c6898"
 			},
 			{
-				"label": "Unflagged",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='L'");
+				"label": "reviewed by lonestar",
+				"value": <?php $sql=("select count(recall_ID) as total from potential_violation where employee_ID='2'");
         $result = $mydb->query($sql);
         while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
 				"color": "#a39216"
-			}
-		]
-	},
-	"labels": {
-		"outer": {
-			"pieDistance": 32
-		},
-		"inner": {
-			"hideWhenLessThanPercentage": 3
-		},
-		"mainLabel": {
-			"fontSize": 11
-		},
-		"percentage": {
-			"color": "#ffffff",
-			"decimalPlaces": 0
-		},
-		"value": {
-			"color": "#adadad",
-			"fontSize": 11
-		},
-		"lines": {
-			"enabled": true
-		},
-		"truncation": {
-			"enabled": true
-		}
-	},
-	"effects": {
-		"pullOutSegmentOnClick": {
-			"effect": "linear",
-			"speed": 400,
-			"size": 8
-		}
-	},
-	"misc": {
-		"gradient": {
-			"enabled": true,
-			"percentage": 100
-		}
-	}
-});
-</script>
-<div id="pieChart3" style="margin: auto;
-background-color:white;
-width: 850px;
-border: 3px solid black;
-padding: 10px;
-text-align:center;"></div>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
-<script src="d3pie.min.js"></script>
-<script>
-var pie2 = new d3pie("pieChart3", {
-	"header": {
-		"title": {
-			"text": "Violations of the past month",
-			"fontSize": 20,
-			"font": "open sans"
-		},
-		"subtitle": {
-			"text": "by process status",
-			"color": "#999999",
-			"font": "open sans"
-		},
-		"titleSubtitlePadding": 9
-	},
-	"footer": {
-		"color": "#999999",
-		"fontSize": 10,
-		"font": "open sans",
-		"location": "bottom-left"
-	},
-	"size": {
-		"canvasWidth": 590,
-		"pieInnerRadius": "40%",
-		"pieOuterRadius": "63%"
-	},
-	"data": {
-		"sortOrder": "value-desc",
-		"content": [
-			{
-				"label": "Flagged",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='NA'");
-        $result = $mydb->query($sql);
-        while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-				"color": "#1c6898"
 			},
 			{
-				"label": "Unflagged",
-				"value": <?php $sql=("select count(state) as total from listing where clientID='$clientID' and state='L'");
+				"label": "reviewed by usernahme",
+				"value": <?php $sql=("select count(recall_ID) as total from potential_violation where employee_ID='3'");
         $result = $mydb->query($sql);
         while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-				"color": "#a39216"
+				"color": "skyblue"
 			}
 		]
 	},

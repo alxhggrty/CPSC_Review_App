@@ -1,53 +1,53 @@
 <?php
-  $email="";
-  $password="";
+  $user_account_username="";
+  $user_account_password="";
   $remember="no";
-  $clientID = "";
-  $clientName = "";
+  $user_account_ID = "";
+  $user_account_username = "";
   $error = false;
   $loginOK = null;
 
   if(isset($_POST["submit"])){
-    if(isset($_POST["email"])) $email=$_POST["email"];
-    if(isset($_POST["password"])) $password=$_POST["password"];
+    if(isset($_POST["user_account_username"])) $user_account_username=$_POST["user_account_username"];
+    if(isset($_POST["user_account_password"])) $user_account_password=$_POST["user_account_password"];
     if(isset($_POST["remember"])) $remember=$_POST["remember"];
-  //  if(isset($_POST["clientID"])) $remember=$_POST["clientID"];
+  //  if(isset($_POST["user_account_ID"])) $remember=$_POST["user_account_ID"];
 
-    //echo ($email.".".$password.".".$remember);
-    if(empty($email) || empty($password)) {
+    //echo ($user_account_username.".".$user_account_password.".".$remember);
+    if(empty($user_account_username) || empty($user_account_password)) {
       $error=true;
     }
 
     //set cookies for remembering the user name
-   if(!empty($email) && $remember=="yes"){
-      setcookie("email", $email, time()+60*60*24, "/");
+   if(!empty($user_account_username) && $remember=="yes"){
+      setcookie("user_account_username", $user_account_username, time()+60*60*24, "/");
     }
 
     if(!$error){
-      //check email and password with the database record
+      //check user_account_username and user_account_password with the database record
       require_once("db.php");
-      $sql = "select password, clientID, clientName from client where email='$email'";
+      $sql = "select user_account_password, user_account_ID, user_account_username from user_account where user_account_username='$user_account_username'";
       $result = $mydb->query($sql);
 
       $row=mysqli_fetch_array($result);
       if ($row){
-        if(strcmp($password, $row["password"]) ==0 ){
+        if(strcmp($user_account_password, $row["user_account_password"]) ==0 ){
           $loginOK=true;
         } else {
           $loginOK = false;
         }
       }
 
-      $sql = "select type from client where email='$email'";
+      $sql = "select Employee_Admin_Boolean from employee where user_account_ID='$user_account_ID'";
       $result = $mydb->query($sql);
 
       if($loginOK) {
-        //set session variable to remember the email
+        //set session variable to remember the user_account_username
         session_start();
-        $_SESSION["email"] = $email;
-        $_SESSION["clientID"] = $row["clientID"];
-        $_SESSION["clientName"] = $row["clientName"];
-       setcookie("password", $password, time()+86400*3);
+        $_SESSION["user_account_username"] = $user_account_username;
+        $_SESSION["user_account_ID"] = $row["user_account_ID"];
+        $_SESSION["user_account_username"] = $row["user_account_username"];
+       setcookie("user_account_password", $user_account_password, time()+86400*3);
 
         Header("Location:clientLanding.php");
       }
@@ -73,22 +73,22 @@
     <div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'>
       <table style="border:0px white;">
       <tr>
-        <td>email</td>
+        <td>Username</td>
       </tr>
       <tr>
-        <td><input type="text" name="email" value="<?php
-          if(!empty($email))
-            echo $email;
-          else if(isset($_COOKIE['email'])) {
-            echo $_COOKIE['email'];
+        <td><input type="text" name="user_account_username" value="<?php
+          if(!empty($user_account_username))
+            echo $user_account_username;
+          else if(isset($_COOKIE['user_account_username'])) {
+            echo $_COOKIE['user_account_username'];
           }
-        ?>" /><?php if($error && empty($email)) echo "<span class='errlabel'> please enter a email</span>"; ?></td>
+        ?>" /><?php if($error && empty($user_account_username)) echo "<span class='errlabel'> please enter a user_account_username</span>"; ?></td>
       </tr>
       <tr>
-        <td>password</td>
+        <td>user_account_password</td>
       </tr>
       <tr>
-        <td><input type="password" name="password" value="<?php if(!empty($password)) echo $password; ?>" /><?php if($error && empty($password)) echo "<span class='errlabel'> please enter a password</span>"; ?></td>
+        <td><input type="user_account_password" name="user_account_password" value="<?php if(!empty($user_account_password)) echo $user_account_password; ?>" /><?php if($error && empty($user_account_password)) echo "<span class='errlabel'> please enter a user_account_password</span>"; ?></td>
       </tr>
     </table>
 
@@ -98,7 +98,7 @@
         <td><input type="checkbox" name="remember" value="yes"/><label>Remember me</label></td>
       </tr>
       <tr>
-        <td><?php if(!is_null($loginOK) && $loginOK==false) echo "<span class='errlabel'>email and password do not match.</span>"; ?></td>
+        <td><?php if(!is_null($loginOK) && $loginOK==false) echo "<span class='errlabel'>username and user_account_password do not match.</span>"; ?></td>
       </tr>
       <tr>
         <td><input type="submit" name="submit" value="Login" /></td>
