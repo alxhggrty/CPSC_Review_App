@@ -14,14 +14,14 @@ require_once("db.php");
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<a href="clientLanding.php"><img src="reynholm.png" height=5% width=5% /></a>
-  <ul class="nav nav-tabs">
-  <li class="active"><a href="clientLanding.php">Home</a></li>
-  <li><a href="clientListingsPage.php">Recalls</a></li>
-  <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
-  <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
-  <li><a href="createListing.php">Add Recalls</a></li>
-  <li><a href="clientAccountManagement.php">Manage Account</a></li>
+<a href="clientLanding.php"><img src="CPSCLOGO.png" height=5% width=5% /></a>
+<ul class="nav nav-tabs">
+<li class="active"><a href="clientLanding.php">Home</a></li>
+<li><a href="clientListingsPage.php">Recalls</a></li>
+<li><a href="clientCurrentLoads.php">Potential Violations</a></li>
+<li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+<li><a href="createListing.php">Add Recalls</a></li>
+<li><a href="clientAccountManagement.php">Manage Account</a></li>
 </ul>
 
 <img style='margin-left: auto; display: block; margin-right: auto;' src="CPSCPage.png" width=850px/>

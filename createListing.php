@@ -59,16 +59,16 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <img src="reynholm.png" height=5% width=5% />
-<ul class="nav nav-tabs">
-<li><a href="clientLanding.php">Home</a></li>
-<li><a href="clientListingsPage.php">Your Listings</a></li>
-<li><a href="clientCurrentLoads.php">Loads in Transit</a></li>
-<li><a href="clientPastLoads.php">Past Loads</a></li>
-<li class="active"><a href="createListing.php">Create Listing</a></li>
-<li><a href="clientAccountManagement.php">Manage Account</a></li>
-</ul>
-    <div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'>
+  <img src="CPSCLOGO.png" height=5% width=5% />
+  <ul class="nav nav-tabs">
+  <li><a href="clientLanding.php">Home</a></li>
+  <li><a href="clientListingsPage.php">Recalls</a></li>
+  <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
+  <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+  <li class="active"><a href="createListing.php">Add Recalls</a></li>
+  <li><a href="clientAccountManagement.php">Manage Account</a></li>
+  </ul>
+      <div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'>
       ENTER NEW LISTING INFORMATION
     </br>
   </br>

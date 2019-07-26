@@ -22,15 +22,15 @@ if (isset($_POST["submit"])) {
   <meta charset="utf-8">
 </head>
 	<body onload="clearAll()">
-		<img src="reynholm.jpg" height=5% width=5% />
-  	<ul class="nav nav-tabs">
-  		<li><a href="clientLanding.php">Home</a></li>
-  		<li><a href="clientListingsPage.php">Your Listings</a></li>
-  		<li class="active"><a href="clientCurrentLoads.php">Loads in Transit</a></li>
-  		<li><a href="clientPastLoads.php">Past Loads</a></li>
-  		<li><a href="createListing.php">Create Listing</a></li>
-        <li><a href="clientAccountManagement.php">Manage Account</a></li>
-		</ul>
+		<img src="CPSCLOGO.png" height=5% width=5% />
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="clientLanding.php">Home</a></li>
+    <li><a href="clientListingsPage.php">Recalls</a></li>
+    <li class="active"><a href="clientCurrentLoads.php">Potential Violations</a></li>
+    <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+    <li><a href="createListing.php">Add Recalls</a></li>
+    <li><a href="clientAccountManagement.php">Manage Account</a></li>
+  </ul>
 
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>

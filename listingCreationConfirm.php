@@ -9,7 +9,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-      <img src="reynholm.png" height=5% width=5% />
+      <img src="CPSCLOGO.png" height=5% width=5% />
   <ul class="nav nav-tabs">
   <li><a href="clientLanding.php">Home</a></li>
   <li><a href="clientListingsPage.php">Your Listings</a></li>

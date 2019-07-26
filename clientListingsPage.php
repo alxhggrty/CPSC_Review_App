@@ -24,7 +24,7 @@ if (isset($_POST["submit"])) {
   <meta charset="utf-8">
 </head>
 	<body onload="clearAll()">
-    <img src="reynholm.jpg" height=5% width=5% />
+    <img src="CPSCLOGO.png" height=5% width=5% />
     <ul class="nav nav-tabs">
     <li><a href="clientLanding.php">Home</a></li>
     <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
@@ -32,7 +32,7 @@ if (isset($_POST["submit"])) {
     <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
     <li><a href="createListing.php">Add Recalls</a></li>
     <li><a href="clientAccountManagement.php">Manage Account</a></li>
-    </ul>
+  </ul>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
 <script src="d3pie.min.js"></script>

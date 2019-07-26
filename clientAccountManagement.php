@@ -4,7 +4,7 @@ session_start();
 ?>
 <html>
 <head>
-  <title>Reynholm Industries</title>
+  <title>Account Management</title>
 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheet.css" />
@@ -12,7 +12,7 @@ session_start();
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-      <img src="reynholm.jpg" height=5% width=5% />
+      <img src="CPSCLOGO.png" height=5% width=5% />
   <ul class="nav nav-tabs">
   <li><a href="clientLanding.php">Home</a></li>
   <li><a href="clientListingsPage.php">Your Listings</a></li>

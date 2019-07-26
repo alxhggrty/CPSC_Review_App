@@ -6,7 +6,7 @@
    <link rel="stylesheet" href="stylesheet.css">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body style="background-color:slategrey;">
-  <img src="reynholm.jpg" height=5% width=5% />
+  <img src="CPSCLOGO.png" height=5% width=5% />
 <ul class="nav nav-tabs">
 <li><a href="clientLanding.php">Home</a></li>
 <li><a href="clientListingsPage.php">Your Listings</a></li>
@@ -18,6 +18,8 @@
 </ul>
 <div style='margin-left: auto; display: block; margin-right: auto;width: 650px;'>
   <?php
+  $recall_ID='';
+  $recall_Number='';
     session_start();
     $recall_ID=$_SESSION['recall_ID'];
     $recall_Number=$_SESSION['$recall_Number'];
@@ -32,7 +34,7 @@
          if ($result==1) {
            echo "<p>A Recall has been deleted!</p></br>";
                    }
-         }
+
          else
          {
            echo "an error occured, please try again and ensure that the data is valid.";

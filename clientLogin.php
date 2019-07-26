@@ -67,7 +67,7 @@
 </head>
 <body>
   <nav>
-    <center><img src="reynholm.png" height="5%" width="5%"></center>
+    <center><img src="CPSCLOGO.png" height="5%" width="5%"></center>
 </nav>
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
     <div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'>

@@ -7,7 +7,7 @@ if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
 ?>
 <html>
 <head>
-  <title>Reynholm Industries</title>
+  <title>CPSC</title>
 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheet.css" />
@@ -15,7 +15,7 @@ if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-      <img src="reynholm.jpg" height=5% width=5% />
+      <img src="CPSCLOGO.png" height=5% width=5% />
       <ul class="nav nav-tabs">
       <li><a href="clientLanding.php">Home</a></li>
       <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
@@ -23,7 +23,7 @@ if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
       <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
       <li><a href="createListing.php">Add Recalls</a></li>
       <li><a href="clientAccountManagement.php">Manage Account</a></li>
-      </ul>
+    </ul>
   <?php
     if (isset($_SESSION['recall_ID']) && isset($_SESSION['recall_Number'])) {
       $recall_ID=$_SESSION['recall_ID'];

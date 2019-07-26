@@ -17,7 +17,7 @@
    <link rel="stylesheet" href="stylesheet.css" />
 </head>
 <body>
-  <img src="reynholm.jpg" height=5% width=5% />
+  <img src="CPSCLOGO.png" height=5% width=5% />
   <ul class="nav nav-tabs">
   <li><a href="clientLanding.php">Home</a></li>
   <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
@@ -25,7 +25,7 @@
   <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
   <li><a href="createListing.php">Add Recalls</a></li>
   <li><a href="clientAccountManagement.php">Manage Account</a></li>
-  </ul>
+</ul>
 <div style='margin-left: auto; display: block; margin-right: auto;width: 650px;'>
   <?php
 
