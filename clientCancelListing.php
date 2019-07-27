@@ -22,7 +22,7 @@
   $recall_Number='';
     session_start();
     $recall_ID=$_SESSION['recall_ID'];
-    $recall_Number=$_SESSION['$recall_Number'];
+    $recall_Number=$_SESSION['recall_Number'];
 
 
     require_once("db.php");

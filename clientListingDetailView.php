@@ -45,7 +45,17 @@ if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
 
           Header("Location:  clientCancelListing.php");
         }
+        if (isset($_POST["addViolation"])) {
+          if(isset($_POST["recall_ID"])&& isset($_POST['recall_Number'])) {
 
+          $_SESSION['recall_ID']=$_POST["recall_ID"];
+          $_SESSION['recall_Number']=$_POST['recall_Number'];
+          $_SESSION['recall_Product_Name']=$_POST['recall_Product_Name'];
+          $_SESSION['recall_URL']=$_POST['recall_URL'];
+
+            Header("Location:  createPotentialViolation.php");
+          }
+}
     require_once("db.php");
     $sql="select * from recall where recall_ID='$recall_ID' and recall_Number='$recall_Number'";
     $result = $mydb->query($sql);
@@ -101,6 +111,15 @@ if(isset($_POST["recall_Number"])) $recall_Number=$_POST["recall_Number"];
           <input type='hidden' name='recall_Number' value='".$row['recall_Number']."' />
         </form>
     </td>
+  </tr>";
+  echo "<tr><td><form method='post' action='".$_SERVER['PHP_SELF']."'>
+    <input type='submit' name='addViolation' value='generate potential violation' />
+    <input type='hidden' name='recall_ID' value='".$row['recall_ID']."' />
+    <input type='hidden' name='recall_Number' value='".$row['recall_Number']."' />
+    <input type='hidden' name='recall_Product_Name' value='".$row['recall_Product_Name']."' />
+    <input type='hidden' name='recall_URL' value='".$row['recall_URL']."' />
+
+  </form>
   </tr>";
 echo "</table></div>";
     }
