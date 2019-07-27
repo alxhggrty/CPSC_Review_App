@@ -17,48 +17,41 @@
     <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
     <li><a href="createListing.php">Add Recalls</a></li>
     <li><a href="clientAccountManagement.php">Manage Account</a></li>
+    <li class="active"><a href="clientAccountManagement.php">Create Account</a></li>
 </ul>
   <?php
     session_start();
 
-    if(isset($_SESSION['recall_ID']))$recall_ID = $_SESSION['recall_ID'];
-    if(isset($_SESSION['recall_Number']))$recall_Number = $_SESSION['recall_Number'];
-    if(isset($_SESSION['Potential_Violation_URL']))$Potential_Violation_URL=$_SESSION['Potential_Violation_URL'];
-    if(isset($_SESSION['recall_URL']))$recall_URL=$_SESSION['recall_URL'];
-
+    if(isset($_SESSION['user_account_username']))$user_account_username = $_SESSION['user_account_username'];
+    if(isset($_SESSION['user_account_Password']))$user_account_Password = $_SESSION['user_account_Password'];
+    echo $user_account_Password;
+    echo $user_account_username;
     require_once("db.php");
     $tracker=0;
 
-    $sql = "insert into potential_violation
-            (    recall_ID,   recall_Number,   Potential_Violation_URL, 	Potential_Violation_Review_Status, Potential_Violation_Review_Date, Employee_ID)
-            values ('$recall_ID', '$recall_Number','$Potential_Violation_URL', FALSE, NULL, NULL)";
+    $sql = "insert into user_account
+            (    user_account_username,   user_account_Password)
+            values ('$user_account_username', '$user_account_Password')";
          $result=$mydb->query($sql);
 
          if ($result==1) {
 
-           $sql = "select * from potential_violation where recall_ID='$recall_ID' and
-                recall_Number='$recall_Number'";
+           $sql = "select * from user_account where user_account_username='$user_account_username' and
+                user_account_Password='$user_account_Password'";
                 $result=$mydb->query($sql);
                 while(($row = mysqli_fetch_array($result)) && $tracker==0) {
-           echo "<div><p>A new potential violation has been added to the database:</p></br>";
+           echo "<div><p>A new user has been added to the database:</p></br>";
 
            echo "<table style='background-color:white;'>
               <tr>
 
-                <th>  recall_ID </th>
-                <th>  recall Number </th>
-                <th>  Potential_Violation_URL  </th>
-                <th>  Potential_Violation_Review_Status  </th>
-                <th>  Potential_Violation_Review_Date </th>
-                <th>  Employee_ID </th>
-              </tr>
+                <th>  user_account_username </th>
+                <th>  User_account_Password </th>
+                <th>  user_account_ID  </th>
               <tr>
-                <td>".$row['Recall_ID']."</td>
-                <td>".$row['Recall_Number']."</td>
-                <td>".$row['Potential_Violation_URL']."</td>
-                <td>".$row['Potential_Violation_Review_Status']."</td>
-                <td>".$row['Potential_Violation_Review_Date']."</td>
-                <td>".$row['Employee_ID']."</td>
+                <td>".$row['user_account_username']."</td>
+                <td>".$row['user_account_Password']."</td>
+                <td>".$row['user_account_ID']."</td>
               </tr>
             </table></div>";
             $tracker=1;
@@ -66,7 +59,7 @@
          }
          else
          {
-           $sql= "delete from listing where recall_ID='$recall_ID' and
+           $sql= "delete from listing where user_account_username='$user_account_username' and
                 recall_Number='$recall_Number' and
                 recall_date='$recall_date' and
                 recall_Description='$recall_Description' and

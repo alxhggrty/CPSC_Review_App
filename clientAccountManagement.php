@@ -14,25 +14,26 @@ session_start();
 <body>
       <img src="CPSCLOGO.png" height=5% width=5% />
   <ul class="nav nav-tabs">
-  <li><a href="clientLanding.php">Home</a></li>
-  <li><a href="clientListingsPage.php">Your Listings</a></li>
-  <li><a href="clientCurrentLoads.php">Loads in Transit</a></li>
-  <li><a href="clientPastLoads.php">Past Loads</a></li>
-  <li><a href="createListing.php">Create Listing</a></li>
-  <li class="active"><a href="clientAccountManagement.php">Manage Account</a></li>
+    <li><a href="clientLanding.php">Home</a></li>
+    <li><a href="clientListingsPage.php">Recalls</a></li>
+    <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
+    <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+    <li><a href="createListing.php">Add Recalls</a></li>
+    <li><a href="clientAccountManagement.php">Manage Account</a></li>
+  <li class="active"><a href="createAccounts.php">Create Accounts</a></li>
 </ul>
   <?php
     if (isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
-
+    if (isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
       if (isset($_POST["DeleteAccount"])) {
           if(isset($_POST["user_account_ID"])) $_SESSION['user_account_ID']=$_POST["user_account_ID"];
-          $sql="delete from client where user_account_ID='$user_account_ID'";
+          $sql="delete from user where user_account_ID='$user_account_ID'";
           $mydb->query($sql);
           Header("Location:  logout.php");
         }
 
 
-    $sql="select distinct * from client where user_account_ID='$user_account_ID'";
+    $sql="select distinct * from user_account where user_account_ID='$user_account_ID'";
     $result = $mydb->query($sql);
     while($row=mysqli_fetch_array($result)){
       echo "<div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'><table>
@@ -41,20 +42,12 @@ session_start();
       <th></th>
       </tr>
   <tr>
-    <td>client ID</td>
+    <td>user_account_ID</td>
     <td>".$row['user_account_ID']."</td>
-  </tr>
-  <tr>
-    <td>Client Name</td>
-    <td>".$row['user_account_username']."</td>
   </tr>
   <tr>
     <td>user_account_username</td>
     <td>".$row['user_account_username']."</td>
-  </tr>
-  <tr>
-    <td>Base Location</td>
-    <td>".$row['baseLocation']."</td>
   </tr>
   <tr>
     <td>

@@ -16,7 +16,7 @@
       $Potential_Violation_URL = $_SESSION['recall_Product_Name'];
       $recall_Product_Name= $_SESSION['recall_Product_Name'];}
     if(isset($_SESSION['recall_URL'])) $recall_URL = $_SESSION['recall_URL'];
-    $Potential_Violation_URL= "https://duckduckgo.com/?q=!ducky ".$Potential_Violation_URL."-''bidding has ended on this item''-''The listing you''re looking for has ended.''+site:ebay.com/itm";
+    $Potential_Violation_URL= "https://duckduckgo.com/?q=!ducky ".$recall_Product_Name."-''bidding has ended on this item''-''The listing you''re looking for has ended.''+site:ebay.com/itm";
     if (!empty($recall_ID)
     && !empty($recall_Number)
     && !empty($recall_Product_Name)
@@ -60,7 +60,7 @@
   <li><a href="clientAccountManagement.php">Manage Account</a></li>
   </ul>
       <div style='margin-left: auto; display: block; margin-right: auto;width: 300px;'>
-      ENTER NEW LISTING INFORMATION
+      ENTER NEW POTENTIAL VIOLATION INFORMATION
     </br>
   </br>
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
