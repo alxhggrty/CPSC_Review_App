@@ -8,7 +8,7 @@ require_once("db.php");
 if (isset($_POST["submit"])) {
     if(isset($_POST["recall_ID"])) {$_SESSION['recall_ID']=$_POST["recall_ID"];
 
-    Header("Location:  PotentialViolationDetailView.php");
+    Header("Location:  processedPotentialViolationDetailView.php");
   }
 }
 ?>
@@ -80,7 +80,7 @@ ocument.getElementById("nameDropdown").value="";
 document.getElementById("IDDropdown").value="";
 
 $(function(){
-  $.ajax({url:"potentialViolationsPageBackend.php?nameDropdown="+
+  $.ajax({url:"processedPotentialViolationsPageBackend.php?nameDropdown="+
   $("#nameDropdown").val()+"&recall_ID="+
   $("#IDDropdown").val()+"&recall_date="+
   $("#recall_date").val()+
@@ -149,7 +149,7 @@ $(function(){
 
             $(function(){
             $("#IDDropdown, #recall_date, #recall_Last_Publish_Date, #numberDropdown, #nameDropdown").change(function(){
-              $.ajax({url:"potentialViolationsPageBackend.php?nameDropdown="+
+              $.ajax({url:"processedPotentialViolationsPageBackend.php?nameDropdown="+
               $("#nameDropdown").val()+"&recall_ID="+
               $("#IDDropdown").val()+"&recall_date="+
               $("#recall_date").val()+

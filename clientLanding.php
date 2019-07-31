@@ -18,8 +18,8 @@ require_once("db.php");
 <ul class="nav nav-tabs">
 <li class="active"><a href="clientLanding.php">Home</a></li>
 <li><a href="clientListingsPage.php">Recalls</a></li>
-<li><a href="clientCurrentLoads.php">Potential Violations</a></li>
-<li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+<li><a href="PotentialViolationListingsPage.php">Potential Violations</a></li>
+<li><a href="processedPotentialViolations.php">Processed Potential Violations</a></li>
 <li><a href="createListing.php">Add Recalls</a></li>
 <li><a href="clientAccountManagement.php">Manage Account</a></li>
 </ul>
