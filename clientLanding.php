@@ -41,6 +41,19 @@ if ($currentTime == "am") {
     echo "<div style='text-align:center;width: 850px;'>Good ".$timeString." ".$user_account_username."!</div>";
 ?>
 
+
+<script type='text/javascript' src='https://prod-useast-a.online.tableau.com/javascripts/api/viz_v1.js'></script>
+<div class='tableauPlaceholder' style='width: 1000px; height: 827px;'>
+  <object class='tableauViz' width='1000' height='827' style='display:none;'><param name='host_url' value='https%3A%2F%2Fprod-useast-a.online.tableau.com%2F' />
+    <param name='embed_code_version' value='3' />
+    <param name='site_root' value='&#47;t&#47;justinbit' />
+    <param name='name' value='Sprint2&#47;FlaggedListingsDashboard_1' />
+    <param name='tabs' value='no' /><param name='toolbar' value='yes' />
+    <param name='showAppBanner' value='false' />
+    <param name='filter' value='iframeSizedToWindow=true' />
+  </object></div>
+
+
 <div id="contentArea"></div>
 <div id="pieChart" style="margin: auto;
 background-color:white;
