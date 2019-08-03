@@ -27,9 +27,9 @@ session_start();
     if (isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
       if (isset($_POST["DeleteAccount"])) {
           if(isset($_POST["user_account_ID"])) $_SESSION['user_account_ID']=$_POST["user_account_ID"];
-          $sql="delete from user where user_account_ID='$user_account_ID'";
+          $sql="delete from user_account where user_account_ID='$user_account_ID'";
           $mydb->query($sql);
-          Header("Location:  logout.php");
+          Header("Location:  clientAccountManagement.php");
         }
 
 
@@ -61,8 +61,33 @@ session_start();
   </tr>";
 echo "</table></div>";
     }
-
+$sql="select * from user_account left join employee on user_account.user_account_ID=employee.user_account_ID"
    ?>
+   <div style='margin-left: auto; display: block; margin-right: auto;width: 1200px;'>
+   <table>
+   <tr>
+     <th>  user_account_username &nbsp;</th>
+     <th>  user_account_password &nbsp;</th>
+     <th>  employee_ID  &nbsp;</th>
+     <th>  admin boolean</th>
+     <th>  Delete Account</th>
+   </tr>
+   <?php
+   $result = $mydb->query($sql);
+
+     while($row = mysqli_fetch_array($result)) {
+       echo "<tr><td>".$row['user_account_username']."</td>
+       <td>".$row['user_account_Password']."</td>
+       <td>".$row['employee_ID']."</td>
+       <td>".$row['Employee_Admin_Boolean']."</td>
+       <td><form method='post'
+           action='".$_SERVER['PHP_SELF']."'>
+             <input type='submit' name='DeleteAccount' value='Delete Account' />
+             <input type='hidden' name='user_account_ID' value='".$row['user_account_ID']."' />
+           </form></td></tr>
+       ";
+     }
+       ?>
    <p><a href="logout.php">Click here to log out</a></p>
 </body>
 </html>
