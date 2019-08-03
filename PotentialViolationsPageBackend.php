@@ -9,17 +9,6 @@ if (isset($_POST["submit"])) {
   if(isset($_POST['recall_Number']))$_SESSION['recall_Number']=$_POST['recall_Number'];
   if(isset($_POST['Potential_Violation_URL']))$_SESSION['Potential_Violation_URL']=$_POST['Potential_Violation_URL'];
   header("Location: flagConfirm.php");
-/* sql for confirmation page
- $sql = "insert into flag
-          (    recall_ID,   recall_Number,   Potential_Violation_URL, 	user_account_ID)
-          values ($_POST['Recall_ID'],
-           '$_POST['recall_Number']',
-           '$_POST['Potential_Violation_URL']',
-           '$_SESSION['user_account_ID']')";
-       $result=$mydb->query($sql);
-
-       if ($result==1) {echo "a new flag has been created"}
-*/
   }
 
 echo
@@ -67,9 +56,9 @@ $result = $mydb->query($sql);
         <td>".$row['recall_Product_Name']."&nbsp</td>
         <td><a href='".$row['recall_URL']."'>CPSC URL</a></td>
         <td><a href='".$row['Potential_Violation_URL']."'>Sales Link</a></td>
-        <td><form><input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
+        <td><form method='post' action=".$_SERVER['PHP_SELF']."><input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
         <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
-        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_Number'].">
+        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">
         <input type='submit' id='submit' name ='submit' value='flag'>
         </td></form><tr>";
 
