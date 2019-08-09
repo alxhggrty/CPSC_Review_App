@@ -24,15 +24,16 @@ if (isset($_POST["submit"])) {
   <meta charset="utf-8">
 </head>
 	<body onload="clearAll()">
-    <img src="CPSCLOGO.png" height=5% width=5% />
-    <ul class="nav nav-tabs">
-    <li><a href="clientLanding.php">Home</a></li>
-    <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
-    <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
-    <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
-    <li><a href="createListing.php">Add Recalls</a></li>
-    <li><a href="clientAccountManagement.php">Manage Account</a></li>
-  </ul>
+    <a href="clientLanding.php"><img src="CPSCLOGO.png" height=5% width=5% /></a>
+<ul class="nav nav-tabs">
+<li class="active"><a href="clientLanding.php">Home</a></li>
+<li><a href="clientListingsPage.php">Recalls</a></li>
+<li><a href="PotentialViolationListingsPage.php">Potential Violations</a></li>
+<li><a href="FlaggedPotentialViolationListingsPage.php">Flagged Potential Violations</a></li>
+<li><a href="processedPotentialViolations.php">Processed Potential Violations</a></li>
+<li><a href="createListing.php">Add Recalls</a></li>
+<li><a href="clientAccountManagement.php">Manage Accounts</a></li>
+</ul>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
 <script src="d3pie.min.js"></script>
