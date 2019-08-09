@@ -3,12 +3,22 @@ session_start();
 require_once("db.php");
 if(isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
 if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
-if (isset($_POST["submit"])) {
+
+if (isset($_POST["sendEmail"])) {
 
   if(isset($_POST['recall_ID']))$_SESSION['recall_ID']=$_POST['recall_ID'];
   if(isset($_POST['recall_Number']))$_SESSION['recall_Number']=$_POST['recall_Number'];
   if(isset($_POST['Potential_Violation_URL']))$_SESSION['Potential_Violation_URL']=$_POST['Potential_Violation_URL'];
-  header("Location: flagConfirm.php");
+  if(isset($_POST['recall_URL']))$_SESSION['recall_URL']=$_POST['recall_URL'];
+  if(isset($_POST['recall_Product_Name']))$_SESSION['recall_Product_Name']=$_POST['recall_Product_Name'];
+  header("Location: emailConfirm.php");}
+
+  if (isset($_POST["notRelevant"])) {
+
+    if(isset($_POST['recall_ID']))$_SESSION['recall_ID']=$_POST['recall_ID'];
+    if(isset($_POST['recall_Number']))$_SESSION['recall_Number']=$_POST['recall_Number'];
+    if(isset($_POST['Potential_Violation_URL']))$_SESSION['Potential_Violation_URL']=$_POST['Potential_Violation_URL'];
+    header("Location: notRelevantConfirm.php");
 /* sql for confirmation page
  $sql = "insert into flag
           (    recall_ID,   recall_Number,   Potential_Violation_URL, 	user_account_ID)
@@ -35,11 +45,13 @@ echo
       <th>  resolution Action</th>
     </tr>";
 // filter constructor
-$conditions = "where Potential_Violation_Review_Status is true and potential_violation.employee_ID=employee.employee_ID and recall.recall_ID=potential_violation.Recall_ID and recall.recall_Number=potential_violation.Recall_Number";
+$conditions = "";
 if(isset($_GET['Recall_ID']) && !empty($_GET['Recall_ID'])) {
   $conditions=$conditions." and Recall_ID='".$_GET['Recall_ID']."'";}
 if(isset($_GET['Recall_Number']) && !empty($_GET['Recall_Number'])) {
   $conditions= $conditions."and Recall_Number='".$_GET['Recall_Number']."'";}
+  if(isset($_GET['Recall_product_name']) && !empty($_GET['Recall_product_name'])) {
+    $conditions= $conditions."and Recall_product_name='".$_GET['Recall_product_name']."'";}
 
 /*
 elseif(isset($_GET['Recall_date']) && !empty($_GET['Recall_date'])) {
@@ -53,7 +65,7 @@ elseif(isset($_GET['Recall_Last_Publish_Date'])) {
 From recall, flag, potential_violation
 Where recall.recall_ID=potential_Violation.Recall_ID
 and recall.recall_number=potential_Violation.Recall_Number
-and potential_violation.Potential_Violation_URL=flag. Potential_Violation_URL
+and potential_violation.Potential_Violation_URL=flag. Potential_Violation_URL".$conditions."
 group by recall_ID, recall_number, flag.potential_Violation_URL
 order by total_flags desc;";
 ?>
@@ -62,100 +74,7 @@ order by total_flags desc;";
 </head>
 <body style="background-color:skyblue;">
 
-  <div id="pieChart" style="margin: auto;
-  background-color:white;
-  width: 850px;
-  border: 3px solid black;
-  padding: 10px;
-  text-align:center;"></div>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
-  <script src="d3pie.min.js"></script>
-  <script>
-  var pie = new d3pie("pieChart", {
-  	"header": {
-  		"title": {
-  			"text": "All Potential Violations",
-  			"fontSize": 20,
-  			"font": "open sans"
-  		},
-  		"subtitle": {
-  			"text": "by process status",
-  			"color": "#999999",
-  			"font": "open sans"
-  		},
-  		"titleSubtitlePadding": 9
-  	},
-  	"footer": {
-  		"color": "#999999",
-  		"fontSize": 10,
-  		"font": "open sans",
-  		"location": "bottom-left"
-  	},
-  	"size": {
-  		"canvasWidth": 590,
-  		"pieInnerRadius": "40%",
-  		"pieOuterRadius": "63%"
-  	},
-  	"data": {
-  		"sortOrder": "value-desc",
-  		"content": [
-  			{
-  				"label": "Reviewed by staff",
-  				"value": <?php $sql2=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='1';");
-          $result = $mydb->query($sql2);
-          while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-  				"color": "#1c6898"
-  			},
-  			{
-  				"label": "Awaiting Review by staff",
-  				"value": <?php $sql2=("select count(Potential_Violation_Review_Status) as total from potential_violation where Potential_Violation_Review_Status='0';");
-          $result = $mydb->query($sql2);
-          while($row=mysqli_fetch_array($result)){echo $row['total'];}?>,
-  				"color": "#a39216"
-  			}
-  		]
-  	},
-  	"labels": {
-  		"outer": {
-  			"pieDistance": 32
-  		},
-  		"inner": {
-  			"hideWhenLessThanPercentage": 3
-  		},
-  		"mainLabel": {
-  			"fontSize": 11
-  		},
-  		"percentage": {
-  			"color": "#ffffff",
-  			"decimalPlaces": 0
-  		},
-  		"value": {
-  			"color": "#adadad",
-  			"fontSize": 11
-  		},
-  		"lines": {
-  			"enabled": true
-  		},
-  		"truncation": {
-  			"enabled": true
-  		}
-  	},
-  	"effects": {
-  		"pullOutSegmentOnClick": {
-  			"effect": "linear",
-  			"speed": 400,
-  			"size": 8
-  		}
-  	},
-  	"misc": {
-  		"gradient": {
-  			"enabled": true,
-  			"percentage": 100
-  		}
-  	}
-  });
-  </script>
 </body>
 </html>
 <?php
@@ -170,9 +89,23 @@ $result = $mydb->query($sql);
         <td><a href='".$row['recall_URL']."'>CPSC URL</a></td>
         <td><a href='".$row['Potential_Violation_URL']."'>Sales Link</a></td>
         <td>".$row['total_flags']."&nbsp</td>
-        <td><form><input type='submit' name ='sendEmail' value='Send Email'>
-        </form><form><input type='submit' name ='notRelevant' value='Not Relevant'>
-        </form></td>";
+        <td>
+
+        <form method='post' action=".$_SERVER['PHP_SELF'].">
+        <input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
+        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">
+        <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
+        <input type='hidden' id='recall_URL' name='recall_URL' value=".$row['recall_URL'].">
+        <input type='hidden' id='recall_Product_Name' name='recall_Product_Name' value=".$row['recall_Product_Name'].">
+        <input type='submit' name ='sendEmail' value='Send Email'>
+        </form>
+        <form method='post' action=".$_SERVER['PHP_SELF'].">
+        <input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
+        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">
+        <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
+        <input type='submit' name ='notRelevant' value='Not Relevant'>
+        </form>
+        </td>";
 
     ;
   }
