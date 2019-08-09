@@ -82,7 +82,7 @@
       ?>
     </label>
     <br />
-    <label>Recalled Product Name:
+    <label>recall_Product_Name:
       <input type="text" name="recall_Product_Name" value="<?php echo $recall_Product_Name; ?>" />
       <?php
         if ($err && empty($recall_ID)) {
@@ -90,7 +90,7 @@
         }
       ?>
     </label>
-    <label>ID:
+    <label>recall_ID:
       <input type="number" name="recall_ID" value="<?php echo $recall_ID; ?>" />
       <?php
         if ($err && empty($recall_ID)) {
@@ -100,7 +100,7 @@
     </label>
     <br />
 
-    <label>Number:
+    <label>recall_Number:
       <input type="text" name="recall_Number" value="<?php echo $recall_Number; ?>" />
       <?php
         if ($err && empty($recall_Number)) {
@@ -110,7 +110,7 @@
     </label>
     <br />
 
-    <label>Recall Date:
+    <label>recall_date:
       <input type="date" name="recall_date" value="<?php echo date('Y-m-d'); ?>"min="<?php echo date('Y-m-d'); ?>" max="2090-12-31" />
       <?php
         if ($err && empty($recall_date)) {
@@ -119,7 +119,7 @@
       ?>
     </label>
     <br />
-    <label>Recall Last Publish Date:
+    <label>recall_Last_Publish_Date:
       <input type="date" name="recall_Last_Publish_Date" value="<?php echo date('Y-m-d'); ?>"min="<?php echo date('Y-m-d'); ?>" max="2090-12-31" />
       <?php
         if ($err && empty($recall_Last_Publish_Date)) {
@@ -129,7 +129,7 @@
     </label>
     <br />
 
-    <label>Description:
+    <label>recall_Description:
       <input type="text" name="recall_Description" value="<?php echo $recall_Description; ?>" />
       <?php
         if ($err && empty($recall_Description)) {

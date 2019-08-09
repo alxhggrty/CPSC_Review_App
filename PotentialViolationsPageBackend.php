@@ -54,8 +54,8 @@ $result = $mydb->query($sql);
     echo
     "<tr>
         <td>".$row['recall_Product_Name']."&nbsp</td>
-        <td><a href='".$row['recall_URL']."'>CPSC URL</a></td>
-        <td><a href='".$row['Potential_Violation_URL']."'>Sales Link</a></td>
+        <td><a href='".$row['recall_URL']."'target='_blank'>CPSC URL</a></td>
+        <td><a href='".$row['Potential_Violation_URL']."'target='_blank'>Sales Link</a></td>
         <td><form method='post' action=".$_SERVER['PHP_SELF']."><input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
         <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
         <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">

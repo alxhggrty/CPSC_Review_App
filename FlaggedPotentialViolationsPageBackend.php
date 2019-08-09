@@ -65,7 +65,7 @@ elseif(isset($_GET['Recall_Last_Publish_Date'])) {
 From recall, flag, potential_violation
 Where recall.recall_ID=potential_Violation.Recall_ID
 and recall.recall_number=potential_Violation.Recall_Number
-and potential_violation.Potential_Violation_URL=flag. Potential_Violation_URL".$conditions."
+and potential_violation.Potential_Violation_URL=flag. Potential_Violation_URL and Potential_Violation_Review_Status=0 ".$conditions."
 group by recall_ID, recall_number, flag.potential_Violation_URL
 order by total_flags desc;";
 ?>

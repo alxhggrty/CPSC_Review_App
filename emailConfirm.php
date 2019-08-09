@@ -26,8 +26,8 @@
 </ul>
 <div style='margin-left: auto; display: block; margin-right: auto;width: 650px;'>
   <?php
-  $msg = "a recalled item has been detected as listed for sale on your site.  ".$Potential_Violation_URL." Has been found to be an example of ".$recall_Product_Name."
-   And should therefore be removed from your website in compliance with the laws of the united states. For further information, see".$recall_URL;
+  $msg = "a recalled item has been detected as listed for sale on your site.  ".$Potential_Violation_URL." Has been found to be an example of ".$recall_URL."
+   And should therefore be removed from your website in compliance with the laws of the united states.";
   $msg = wordwrap($msg,70);
 
 
@@ -86,8 +86,8 @@
 //does the update
     $sql = "update potential_violation set employee_ID='$employee_ID',
     Potential_Violation_Review_Status=TRUE, potential_violation_resolution=TRUE, Potential_Violation_Review_Date='".date('Y-m-d')."'
-    where recall_ID=$recall_ID and recall_Number='$recall_Number' and Potential_Violation_URL='$Potential_Violation_URL';";
-
+    where recall_ID=$recall_ID and recall_Number='$recall_Number';";
+echo $sql;
          $result=$mydb->query($sql);
 //gives a readout of what the update sent to the database, allows for review
          if ($result==1) {

@@ -1,0 +1,53 @@
+<?php
+session_start();
+if(isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
+if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
+require_once("db.php");
+?>
+<html>
+<head>
+  <title>CPSC Recall Management</title>
+
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <link rel="stylesheet" href="stylesheet.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<a href="clientLanding.php"><img src="CPSCLOGO.png" height=5% width=5% /></a>
+<ul class="nav nav-tabs">
+<li class="active"><a href="clientLanding.php">Home</a></li>
+<li><a href="clientListingsPage.php">Recalls</a></li>
+<li><a href="PotentialViolationListingsPage.php">Potential Violations</a></li>
+<li><a href="FlaggedPotentialViolationListingsPage.php">Flagged Potential Violations</a></li>
+<li><a href="processedPotentialViolations.php">Processed Potential Violations</a></li>
+<li><a href="createListing.php">Add Recalls</a></li>
+<li><a href="clientAccountManagement.php">Manage Accounts</a></li>
+</ul>
+
+<img style='margin-left: auto; display: block; margin-right: auto;' src="CPSCPage.png" width=850px/>
+
+<?php
+//resume the session variable on this page
+$user_account_ID = $_SESSION["user_account_ID"];
+$user_account_username = $_SESSION["user_account_username"];
+$timeString = "";
+$currentTime = date("a");
+if ($currentTime == "am") {
+  $timeString = "morning";
+} else {
+  $timeString = "afternoon";
+}
+
+    echo "<div style='text-align:center;width: 850px;'>Good ".$timeString." ".$user_account_username."!</div>";
+?>
+
+
+<div class='tableauPlaceholder' id='viz1565391444467' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;Sprint2_15647708707480&#47;FinalDashboard&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Sprint2_15647708707480&#47;FinalDashboard' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;Sprint2_15647708707480&#47;FinalDashboard&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1565391444467');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else { vizElement.style.width='100%';vizElement.style.height='1577px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+
+   <center><p style='margin-left: auto; display: block; margin-right: auto;'>
+     <a style="background-color:white;" href="logout.php">Click here to log out</a>
+   </p></center>
+</body>
+</html>

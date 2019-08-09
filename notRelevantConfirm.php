@@ -2,10 +2,10 @@
   session_start();
 //gets session variables passed from the detail view edit
       if(isset($_SESSION['recall_ID']))$recall_ID = $_SESSION["recall_ID"];
-      if(isset($_SESSION['recall_URL']))$recall_URL = $_SESSION["recall_URL"];
+      if(isset($_SESSION['recall_URL']))$recall_URL = str_replace ("--","",$_SESSION["recall_URL"]);
       if(isset($_SESSION['recall_Number']))$recall_Number = $_SESSION["recall_Number"];
       if(isset($_SESSION['recall_Product_Name']))$recall_Product_Name = $_SESSION["recall_Product_Name"];
-      if(isset($_SESSION['Potential_Violation_URL']))$Potential_Violation_URL=$_SESSION['Potential_Violation_URL'];
+      if(isset($_SESSION['Potential_Violation_URL']))$Potential_Violation_URL=str_replace ("'","''",$_SESSION['Potential_Violation_URL']);
       $employee_ID='';
 ?>
 <html>
@@ -40,7 +40,7 @@
 //does the update
     $sql = "update potential_violation set employee_ID='$employee_ID',
     Potential_Violation_Review_Status=TRUE, potential_violation_resolution=FALSE, Potential_Violation_Review_Date='".date('Y-m-d')."'
-    where Recall_ID=$recall_ID and Recall_Number='$recall_Number' and Potential_Violation_URL='$Potential_Violation_URL';";
+    where Recall_ID=$recall_ID and Recall_Number='$recall_Number';";
 
          $result=$mydb->query($sql);
 //gives a readout of what the update sent to the database, allows for review

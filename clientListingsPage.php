@@ -28,10 +28,11 @@ if (isset($_POST["submit"])) {
     <ul class="nav nav-tabs">
     <li><a href="clientLanding.php">Home</a></li>
     <li class="active"><a href="clientListingsPage.php">Recalls</a></li>
-    <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
-    <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
+    <li><a href="PotentialViolationListingsPage.php">Potential Violations</a></li>
+    <li><a href="FlaggedPotentialViolationListingsPage.php">Flagged Potential Violations</a></li>
+    <li><a href="processedPotentialViolations.php">Processed Potential Violations</a></li>
     <li><a href="createListing.php">Add Recalls</a></li>
-    <li><a href="clientAccountManagement.php">Manage Account</a></li>
+    <li><a href="clientAccountManagement.php">Manage Accounts</a></li>
   </ul>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
