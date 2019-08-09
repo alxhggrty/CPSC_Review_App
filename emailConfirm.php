@@ -61,9 +61,9 @@
   //Set who the message is to be sent from
   $mail->setFrom('cpscsafetybois@gmail.com', 'CPSC Recalls');
   //Set who the message is to be sent to
-  $mail->addAddress('halex7@vt.edu', 'Alex Haggerty');
+  $mail->addAddress('cpscsafetybois@gmail.com', 'Alex Haggerty');
   //Set the subject line
-  $mail->Subject = 'PHPMailer GMail SMTP test';
+  $mail->Subject = 'Recalled Product';
   //Replace the plain text body with one created manually
   $mail->Body = $msg;
   //send the message, check for errors
