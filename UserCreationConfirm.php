@@ -1,7 +1,28 @@
-<!doctype html>
+<?php
+session_start();
+require_once("db.php");
+$Administrator=FALSE;
+if(isset($_COOKIE["User_Account_Id"]) &&(isset($_COOKIE["User_Account_Password"])) && (isset($_COOKIE["User_Account_Username"]))) {
+  $User_Account_Id=$_COOKIE["User_Account_Id"];
+  $User_Account_Password=$_COOKIE['User_Account_Password'];
+  $User_Account_Username=$_COOKIE['User_Account_Username'];
+
+  $sql="select Employee_Admin from user_account, employee where User_Account_Id='$User_Account_Id' and User_Account_Password='$User_Account_Password'
+  and User_Account_Username='$User_Account_Username' and user_account.Employee_Id=employee.Employee_Id";
+  $result = $mydb->query($sql);
+  if($result->num_rows == 0){Header("Location:  clientLogin.php");}
+  else{
+  while($row=mysqli_fetch_array($result)){
+  if($row['Employee_Admin']){$Administrator=1;}
+  else{Header("Location:  clientLanding.php");}
+        }
+      }
+    }
+else{Header("Location:  clientLogin.php");}
+?>
 <html>
 <head>
-  <title>Recall Confirmation</title>
+  <title>recall Confirmation</title>
 
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    <link rel="stylesheet" href="stylesheet.css" />
@@ -9,35 +30,38 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-      <img src="CPSCLOGO.png" height=5% width=5% />
+  <a href="clientLanding.php"><img src="CPSCLOGO.png" height=5% width=5% /></a>
   <ul class="nav nav-tabs">
-    <li><a href="clientLanding.php">Home</a></li>
-    <li><a href="clientListingsPage.php">Recalls</a></li>
-    <li><a href="clientCurrentLoads.php">Potential Violations</a></li>
-    <li><a href="clientPastLoads.php">Processed Potential Violations</a></li>
-    <li><a href="createListing.php">Add Recalls</a></li>
-    <li><a href="clientAccountManagement.php">Manage Account</a></li>
-    <li class="active"><a href="clientAccountManagement.php">Create Account</a></li>
-</ul>
+  <li><a href="clientLanding.php">Home</a></li>
+  <li><a href="clientListingsPage.php">recalls</a></li>
+  <li><a href="PotentialViolationListingsPage.php">Potential Violations</a></li>
+  <?php if($Administrator==TRUE){echo "<li><a href='FlaggedPotentialViolationListingsPage.php'>flagged Potential Violations</a></li>
+  <li><a href='ProcessedPotentialViolations.php'>Processed Potential Violations</a></li>
+  <li><a href='createListing.php'>Add recalls</a></li>
+  <li><a href='clientAccountManagement.php'>Manage Accounts</a></li>
+  <li class='active'><a href='createAccounts.php'>Create Accounts</a></li>;";}?>
+  </ul>
   <?php
-    session_start();
 
-    if(isset($_SESSION['user_account_username']))$user_account_username = $_SESSION['user_account_username'];
-    if(isset($_SESSION['user_account_Password']))$user_account_Password = $_SESSION['user_account_Password'];
-    echo $user_account_Password;
-    echo $user_account_username;
-    require_once("db.php");
+    if(isset($_SESSION['User_Account_Username']))$User_Account_Username = $_SESSION['User_Account_Username'];
+    if(isset($_SESSION['User_Account_Password']))$User_Account_Password = $_SESSION['User_Account_Password'];
+    if(isset($_SESSION['firstName'])) $firstName = $_SESSION['firstName'];
+    if(isset($_SESSION['lastName'])) $lastName = $_SESSION['lastName'];
+    if(isset($_SESSION['email'])) $email = $_SESSION['email'];
+    if(isset($_SESSION['Admin'])) $Admin = $_SESSION['Admin'];
+
     $tracker=0;
-
-    $sql = "insert into user_account
-            (    user_account_username,   user_account_Password)
-            values ('$user_account_username', '$user_account_Password')";
+    $sql = "insert into employee (Employee_Admin)
+            values ($Admin);";
+            $result=$mydb->query($sql);
+    $sql = "Insert into user_account (Employee_Id,User_Account_Username, User_Account_Password, User_Account_FirstName, User_Account_LastName, User_Account_Email)
+            VALUES(LAST_INSERT_ID(),'$User_Account_Username','$User_Account_Password','$firstName','$lastName','$email');";
          $result=$mydb->query($sql);
 
          if ($result==1) {
 
-           $sql = "select * from user_account where user_account_username='$user_account_username' and
-                user_account_Password='$user_account_Password'";
+           $sql = "select * from user_account where User_Account_Username='$User_Account_Username' and
+                User_Account_Password='$User_Account_Password'";
                 $result=$mydb->query($sql);
                 while(($row = mysqli_fetch_array($result)) && $tracker==0) {
            echo "<div><p>A new user has been added to the database:</p></br>";
@@ -45,28 +69,24 @@
            echo "<table style='background-color:white;'>
               <tr>
 
-                <th>  user_account_username </th>
-                <th>  User_account_Password </th>
-                <th>  user_account_ID  </th>
+                <th>  user account username </th>
+                <th>  User account Password </th>
+                <th>  First Name </th>
+                <th>  Last Name </th>
+                <th>  Email  </th>
               <tr>
-                <td>".$row['user_account_username']."</td>
-                <td>".$row['user_account_Password']."</td>
-                <td>".$row['user_account_ID']."</td>
+                <td>".$row['User_Account_Username']."</td>
+                <td>".$row['User_Account_Password']."</td>
+                <td>".$row['User_Account_FirstName']."</td>
+                <td>".$row['User_Account_LastName']."</td>
+                <td>".$row['User_Account_Email']."</td>
               </tr>
             </table></div>";
-            $tracker=1;
+            $tracker==1;
                    }
          }
          else
          {
-           $sql= "delete from listing where user_account_username='$user_account_username' and
-                recall_Number='$recall_Number' and
-                recall_date='$recall_date' and
-                recall_Description='$recall_Description' and
-                recall_title='$recall_title' and
-                recall_Product_Name='$recall_Product_Name' and
-                recall_URL='$recall_URL'";
-                $result=$mydb->query($sql);
            echo "<div>an error occured, please try again</div>";
          }
   ?>

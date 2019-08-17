@@ -33,13 +33,13 @@ $mail->Username = "cpscsafetybois@gmail.com";
 //Password to use for SMTP authentication
 $mail->Password = "correcthorsebatterystaple";
 //Set who the message is to be sent from
-$mail->setFrom('cpscsafetybois@gmail.com', 'CPSC Recalls');
+$mail->setFrom('cpscsafetybois@gmail.com', 'First Last');
 //Set who the message is to be sent to
-$mail->addAddress('halex7@vt.edu', 'alex haggerty');
+$mail->addAddress('halex7@gmail.com', 'Alex Haggerty');
 //Set the subject line
 $mail->Subject = 'PHPMailer GMail SMTP test';
 //Replace the plain text body with one created manually
-$mail->AltBody = 'This is a plain-text message body';
+$mail->AltBody = $msg;
 //send the message, check for errors
 if (!$mail->send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;

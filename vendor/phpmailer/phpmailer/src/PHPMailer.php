@@ -3640,13 +3640,13 @@ class PHPMailer
         }
         //Looks like a bracketed IPv6 address
         if (trim($host, '[]') != $host) {
-            return (bool) filter_var(trim($host, '[]'), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+            return (bool) filter_var(trim($host, '[]'), FILTER_VALIDATE_IP, FILTER_flag_IPV6);
         }
         //If removing all the dots results in a numeric string, it must be an IPv4 address.
         //Need to check this first because otherwise things like `999.0.0.0` are considered valid host names
         if (is_numeric(str_replace('.', '', $host))) {
             //Is it a valid IPv4 address?
-            return (bool) filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+            return (bool) filter_var($host, FILTER_VALIDATE_IP, FILTER_flag_IPV4);
         }
         if (filter_var('http://' . $host, FILTER_VALIDATE_URL)) {
             //Is it a syntactically valid hostname?

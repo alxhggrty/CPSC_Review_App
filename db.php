@@ -7,7 +7,7 @@
 
     public function open_connection() {
       //establish a connection to the database
-      $this->dbConn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+      $this->dbConn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       //error checking
       if(mysqli_connect_errno()) {
         die( "Database connection error: ".mysqli_connect_error()."(".mysqli_connect_errno().")" );

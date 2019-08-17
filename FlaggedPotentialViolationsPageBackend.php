@@ -1,31 +1,49 @@
 <?php
 session_start();
 require_once("db.php");
-if(isset($_SESSION['user_account_username'])) $user_account_username=$_SESSION['user_account_username'];
-if(isset($_SESSION['user_account_ID'])) $user_account_ID=$_SESSION['user_account_ID'];
+$Administrator=FALSE;
+if(isset($_COOKIE["User_Account_Id"]) &&(isset($_COOKIE["User_Account_Password"])) && (isset($_COOKIE["User_Account_Username"]))) {
+  $User_Account_Id=$_COOKIE["User_Account_Id"];
+  $User_Account_Password=$_COOKIE['User_Account_Password'];
+  $User_Account_Username=$_COOKIE['User_Account_Username'];
+
+  $sql="select Employee_Admin from user_account, employee where User_Account_Id='$User_Account_Id' and User_Account_Password='$User_Account_Password'
+  and User_Account_Username='$User_Account_Username' and user_account.Employee_Id=employee.Employee_Id";
+  $result = $mydb->query($sql);
+  if($result->num_rows == 0){Header("Location:  clientLogin.php");}
+  else{
+  while($row=mysqli_fetch_array($result)){
+  if($row['Employee_Admin']){$Administrator=1;}
+  else{Header("Location:  clientLanding.php");}
+        }
+      }
+    }
+else{Header("Location:  clientLogin.php");}
+if(isset($_SESSION['User_Account_Username'])) $User_Account_Username=$_SESSION['User_Account_Username'];
+if(isset($_SESSION['User_Account_Id'])) $User_Account_Id=$_SESSION['User_Account_Id'];
 
 if (isset($_POST["sendEmail"])) {
 
-  if(isset($_POST['recall_ID']))$_SESSION['recall_ID']=$_POST['recall_ID'];
-  if(isset($_POST['recall_Number']))$_SESSION['recall_Number']=$_POST['recall_Number'];
+  if(isset($_POST['Recall_Id']))$_SESSION['Recall_Id']=$_POST['Recall_Id'];
+  if(isset($_POST['Recall_Number']))$_SESSION['Recall_Number']=$_POST['Recall_Number'];
   if(isset($_POST['Potential_Violation_URL']))$_SESSION['Potential_Violation_URL']=$_POST['Potential_Violation_URL'];
-  if(isset($_POST['recall_URL']))$_SESSION['recall_URL']=$_POST['recall_URL'];
-  if(isset($_POST['recall_Product_Name']))$_SESSION['recall_Product_Name']=$_POST['recall_Product_Name'];
+  if(isset($_POST['Recall_URL']))$_SESSION['Recall_URL']=$_POST['Recall_URL'];
+  if(isset($_POST['Recall_Product_Name']))$_SESSION['Recall_Product_Name']=$_POST['Recall_Product_Name'];
   header("Location: emailConfirm.php");}
 
   if (isset($_POST["notRelevant"])) {
 
-    if(isset($_POST['recall_ID']))$_SESSION['recall_ID']=$_POST['recall_ID'];
-    if(isset($_POST['recall_Number']))$_SESSION['recall_Number']=$_POST['recall_Number'];
+    if(isset($_POST['Recall_Id']))$_SESSION['Recall_Id']=$_POST['Recall_Id'];
+    if(isset($_POST['Recall_Number']))$_SESSION['Recall_Number']=$_POST['Recall_Number'];
     if(isset($_POST['Potential_Violation_URL']))$_SESSION['Potential_Violation_URL']=$_POST['Potential_Violation_URL'];
     header("Location: notRelevantConfirm.php");
 /* sql for confirmation page
  $sql = "insert into flag
-          (    recall_ID,   recall_Number,   Potential_Violation_URL, 	user_account_ID)
-          values ($_POST['Recall_ID'],
-           '$_POST['recall_Number']',
+          (    Recall_Id,   Recall_Number,   Potential_Violation_URL, 	User_Account_Id)
+          values ($_POST['Recall_Id'],
+           '$_POST['Recall_Number']',
            '$_POST['Potential_Violation_URL']',
-           '$_SESSION['user_account_ID']')";
+           '$_SESSION['User_Account_Id']')";
        $result=$mydb->query($sql);
 
        if ($result==1) {echo "a new flag has been created"}
@@ -34,43 +52,53 @@ if (isset($_POST["sendEmail"])) {
 
 echo
     "<div style='margin-left: auto; display: block; margin-right: auto;width: 1200px;'>
-<table>
+<table style='margin:auto;'>
     <tr>
       <th>  ID &nbsp;</th>
-      <th>  Number &nbsp;</th>
-      <th>  Product Name &nbsp;</th>
-      <th>  CPSC URL  &nbsp;</th>
-      <th>  potential_violation_URL</th>
-      <th>  total_flags</th>
-      <th>  resolution Action</th>
+      <th>  Title &nbsp;</th>
+      <th>  Recall Description &nbsp;</th>
+      <th>  Potential Violation URL</th>
+      <th>  Total flags</th>
+      <th>  Action </th>
     </tr>";
 // filter constructor
 $conditions = "";
-if(isset($_GET['Recall_ID']) && !empty($_GET['Recall_ID'])) {
-  $conditions=$conditions." and Recall_ID='".$_GET['Recall_ID']."'";}
-if(isset($_GET['Recall_Number']) && !empty($_GET['Recall_Number'])) {
-  $conditions= $conditions."and Recall_Number='".$_GET['Recall_Number']."'";}
-  if(isset($_GET['Recall_product_name']) && !empty($_GET['Recall_product_name'])) {
-    $conditions= $conditions."and Recall_product_name='".$_GET['Recall_product_name']."'";}
+  if(isset($_GET['nameDropdown']) && (!empty($_GET['nameDropdown']) && !($_GET['nameDropdown']=="Object object]"))) {
+      $conditions=$conditions." and Recall_Product_Name LIKE '".preg_replace('/[\x00-\x1F\x7F-\xFF]/', '%', $_GET['nameDropdown'])."%'";}
 
 /*
-elseif(isset($_GET['Recall_date']) && !empty($_GET['Recall_date'])) {
-  $conditions=$conditions." and Recall_date='".$_GET['Recall_date']."'";}
+elseif(isset($_GET['Recall_Date']) && !empty($_GET['Recall_Date'])) {
+  $conditions=$conditions." and Recall_Date='".$_GET['Recall_Date']."'";}
 elseif(isset($_GET['Recall_Last_Publish_Date'])) {
     $conditions=$conditions." and Recall_Last_Publish_Date='".$_GET['Recall_Last_Publish_Date']."'";}
 */
 
 
-        $sql="Select count(flag.Potential_Violation_URL) as total_flags, recall.recall_ID, recall.recall_Number, recall_Product_Name, recall_URL, 	flag.Potential_Violation_URL
-From recall, flag, potential_violation
-Where recall.recall_ID=potential_Violation.Recall_ID
-and recall.recall_number=potential_Violation.Recall_Number
-and potential_violation.Potential_Violation_URL=flag. Potential_Violation_URL and Potential_Violation_Review_Status=0 ".$conditions."
-group by recall_ID, recall_number, flag.potential_Violation_URL
-order by total_flags desc;";
+        $sql="Select count(flag.Recall_Id) as total_flags, recall.Recall_Id,
+        recall.Recall_Number, recall.Recall_Product_Name, recall.Recall_Title,
+        recall.Recall_URL, 	flag.Potential_Violation_URL
+        From recall, flag, potential_violation
+        Where recall.Recall_Id=potential_violation.Recall_Id
+        and recall.Recall_Number=potential_violation.Recall_Number
+        and potential_violation.Recall_Id=flag.Recall_Id
+        and potential_violation.Recall_Number = flag.Recall_Number".$conditions."
+        and potential_violation.Recall_Id NOT IN (select Recall_Id from dispute)
+        and potential_violation.Recall_Number NOT IN (select Recall_Number from dispute)
+        group by recall.Recall_Id, recall.Recall_Number, flag.Potential_Violation_URL
+        order by total_flags desc; ";
+        
 ?>
 <html>
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145779038-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-145779038-1');
+</script>
 </head>
 <body style="background-color:skyblue;">
 
@@ -78,30 +106,40 @@ order by total_flags desc;";
 </body>
 </html>
 <?php
+function get_page_title($url){
+if( !($data = file_get_contents($url)) ) return false;
+
+if( preg_match("#<title>(.+)<\/title>#iU", $data, $t))  {
+return trim($t[1]);
+} else {
+return false;
+}
+}
 $result = $mydb->query($sql);
 
   while($row = mysqli_fetch_array($result)) {
+    $holder="http://".$row['Potential_Violation_URL'];
+    $holder=str_replace("http://http://","http://",$holder);
     echo
     "<tr>
-        <td>".$row['recall_ID']."&nbsp</td>
-        <td>".$row['recall_Number']."&nbsp</td>
-        <td>".$row['recall_Product_Name']."&nbsp</td>
-        <td><a href='".$row['recall_URL']."'>CPSC URL</a></td>
-        <td><a href='".$row['Potential_Violation_URL']."'>Sales Link</a></td>
+        <td>".$row['Recall_Id']."&nbsp</td>
+        <td><a href='".$row['Recall_URL']."'>".$row['Recall_Product_Name']."</a></td>
+        <td>".$row['Recall_Title']."&nbsp</td>
+        <td><a href='".$holder."'>".get_page_title($holder)."</a></td>
         <td>".$row['total_flags']."&nbsp</td>
         <td>
 
         <form method='post' action=".$_SERVER['PHP_SELF'].">
-        <input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
-        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">
+        <input type='hidden' id='Recall_Number' name='Recall_Number' value=".$row['Recall_Number'].">
+        <input type='hidden' id='Recall_Id' name='Recall_Id' value=".$row['Recall_Id'].">
         <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
-        <input type='hidden' id='recall_URL' name='recall_URL' value=".$row['recall_URL'].">
-        <input type='hidden' id='recall_Product_Name' name='recall_Product_Name' value=".$row['recall_Product_Name'].">
+        <input type='hidden' id='Recall_URL' name='Recall_URL' value=".$row['Recall_URL'].">
+        <input type='hidden' id='Recall_Product_Name' name='Recall_Product_Name' value=".$row['Recall_Product_Name'].">
         <input type='submit' name ='sendEmail' value='Send Email'>
         </form>
         <form method='post' action=".$_SERVER['PHP_SELF'].">
-        <input type='hidden' id='recall_Number' name='recall_Number' value=".$row['recall_Number'].">
-        <input type='hidden' id='recall_ID' name='recall_ID' value=".$row['recall_ID'].">
+        <input type='hidden' id='Recall_Number' name='Recall_Number' value=".$row['Recall_Number'].">
+        <input type='hidden' id='Recall_Id' name='Recall_Id' value=".$row['Recall_Id'].">
         <input type='hidden' id='Potential_Violation_URL' name='Potential_Violation_URL' value=".$row['Potential_Violation_URL'].">
         <input type='submit' name ='notRelevant' value='Not Relevant'>
         </form>
